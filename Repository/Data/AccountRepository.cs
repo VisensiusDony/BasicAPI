@@ -23,7 +23,8 @@ namespace API.Repository.Data
             int hasil = 0;
             if (loginVM.Email != "" && loginVM.Password != "")
             {
-                var cekEmail = myContext.Employees.Where(e => e.Email == loginVM.Email).SingleOrDefault();
+                var cekEmail = myContext.Employees.SingleOrDefault(e => e.Email == loginVM.Email);
+                //var cekmail = myContext.Employees.Where(e => e.Email == loginVM.Email).SingleOrDefault();
                 //var cekNIK = myContext.Employees.SingleOrDefault(e => e.NIK == cekEmail.NIK);
                 if (cekEmail != null)
                 {

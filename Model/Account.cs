@@ -14,7 +14,7 @@ namespace API.Model
         [Key]
         public string NIK { get; set; }
         public string Password { get; set; }
-        //public string Guid { get; set; }
+        
         //[JsonIgnore]
         public virtual Profilling Profilling { get; set; }
         [JsonIgnore]
