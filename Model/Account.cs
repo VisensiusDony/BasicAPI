@@ -21,5 +21,7 @@ namespace API.Model
         public int OTP { get; set; }
         public bool IsUsed { get; set; }
         public DateTime Expired { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<AccountRole> AccountRole { get; set; }
     }
 }

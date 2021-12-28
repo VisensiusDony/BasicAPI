@@ -2,9 +2,11 @@
 using API.Repository;
 using API.Repository.Data;
 using API.ViewModel;
+using Castle.Core.Configuration;
 using DurableTask.Core.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,8 @@ using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
+
 namespace API.Controllers
 {
     [Route("api/[controller]")]
@@ -21,14 +25,16 @@ namespace API.Controllers
     public class EmployeesController : BaseController<Employee, EmployeeRepository, string>
     {
         private readonly EmployeeRepository employeeRepository;
+        public IConfiguration _configuration;
 
         public object NIK { get; private set; }
 
 
         //public EmployeesController(EmployeeRepository employeeRepository)
-        public EmployeesController(EmployeeRepository employeeRepository) :base(employeeRepository)
+        public EmployeesController(EmployeeRepository employeeRepository,IConfiguration configuration) :base(employeeRepository)
         {
             this.employeeRepository = employeeRepository;
+            this._configuration = configuration;
         }
         [HttpPost]
         [Route("/Insert")]

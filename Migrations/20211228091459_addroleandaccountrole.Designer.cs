@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20211222035009_addmodelaccountandprofilling")]
-    partial class addmodelaccountandprofilling
+    [Migration("20211228091459_addroleandaccountrole")]
+    partial class addroleandaccountrole
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,12 +26,43 @@ namespace API.Migrations
                     b.Property<string>("NIK")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("Expired")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OTP")
+                        .HasColumnType("int");
+
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("NIK");
 
                     b.ToTable("tb_m_account");
+                });
+
+            modelBuilder.Entity("API.Model.AccountRole", b =>
+                {
+                    b.Property<int>("AccountRoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AccountId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AccountRoleId");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("tb_m_accountrole");
                 });
 
             modelBuilder.Entity("API.Model.Education", b =>
@@ -44,8 +75,8 @@ namespace API.Migrations
                     b.Property<string>("Degree")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("GPA")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("GPA")
+                        .HasColumnType("real");
 
                     b.Property<int>("UniversityId")
                         .HasColumnType("int");
@@ -108,6 +139,21 @@ namespace API.Migrations
                     b.ToTable("tb_m_profilling");
                 });
 
+            modelBuilder.Entity("API.Model.Role", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("RoleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("tb_m_role");
+                });
+
             modelBuilder.Entity("API.Model.University", b =>
                 {
                     b.Property<int>("UniversityId")
@@ -132,6 +178,23 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("API.Model.AccountRole", b =>
+                {
+                    b.HasOne("API.Model.Account", "Account")
+                        .WithMany("AccountRole")
+                        .HasForeignKey("AccountId");
+
+                    b.HasOne("API.Model.Role", "Role")
+                        .WithMany("AccountRole")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("API.Model.Education", b =>
@@ -166,6 +229,8 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Model.Account", b =>
                 {
+                    b.Navigation("AccountRole");
+
                     b.Navigation("Profilling");
                 });
 
@@ -177,6 +242,11 @@ namespace API.Migrations
             modelBuilder.Entity("API.Model.Employee", b =>
                 {
                     b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("API.Model.Role", b =>
+                {
+                    b.Navigation("AccountRole");
                 });
 
             modelBuilder.Entity("API.Model.University", b =>

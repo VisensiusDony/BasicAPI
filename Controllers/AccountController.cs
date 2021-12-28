@@ -1,14 +1,8 @@
 ﻿using API.Model;
 using API.Repository.Data;
 using API.ViewModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Mail;
-using System.Threading.Tasks;
 
 namespace API.Controllers
 {
