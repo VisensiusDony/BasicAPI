@@ -65,37 +65,44 @@ namespace API.Repository.Data
             if (forgotPasswordVM.Email != "")
             {
                 var cekEmail = myContext.Employees.SingleOrDefault(e => e.Email == forgotPasswordVM.Email);
-                var cekAccount = myContext.Account.SingleOrDefault(e => e.NIK == cekEmail.NIK);
-                Random random = new Random();
-                cekAccount.OTP = random.Next(100000, 999999);
-                cekAccount.Expired = DateTime.Now.AddMinutes(5);
-                cekAccount.IsUsed = false;
-
-                var fromAddress = new MailAddress("lyear855@gmail.com");
-                var passwordFrom = "visensius";
-                var toAddress = new MailAddress(forgotPasswordVM.Email);
-                SmtpClient smtp = new SmtpClient
+                if (cekEmail != null)
                 {
-                    Host = "smtp.gmail.com",
-                    Port = 587,
-                    EnableSsl = true,
-                    UseDefaultCredentials = false,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    Credentials = new NetworkCredential(fromAddress.Address, passwordFrom)
-                };
-                using (var message = new MailMessage(fromAddress, toAddress)
-                {
-                    Subject = "Forgot Password",
-                    Body = "Hai, " + cekEmail.FirstName + " berikut OTP kamu yang sekarang : " +cekAccount.OTP+ ". Segera lakukan Change Password.",
-                }) smtp.Send(message);
+                    var cekAccount = myContext.Account.SingleOrDefault(e => e.NIK == cekEmail.NIK);
+                    Random random = new Random();
+                    cekAccount.OTP = random.Next(100000, 999999);
+                    cekAccount.Expired = DateTime.Now.AddMinutes(5);
+                    cekAccount.IsUsed = false;
 
-                myContext.Entry(cekAccount).State = EntityState.Modified;
-                myContext.SaveChanges();
-                hasil = 1;
+                    var fromAddress = new MailAddress("lyear855@gmail.com");
+                    var passwordFrom = "visensius";
+                    var toAddress = new MailAddress(forgotPasswordVM.Email);
+                    SmtpClient smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        UseDefaultCredentials = false,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        Credentials = new NetworkCredential(fromAddress.Address, passwordFrom)
+                    };
+                    using (var message = new MailMessage(fromAddress, toAddress)
+                    {
+                        Subject = "Forgot Password",
+                        Body = "Hai, " + cekEmail.FirstName + " " + cekEmail.LastName + " berikut OTP kamu yang sekarang : " + cekAccount.OTP + ". Segera lakukan Change Password.",
+                    }) smtp.Send(message);
+
+                    myContext.Entry(cekAccount).State = EntityState.Modified;
+                    myContext.SaveChanges();
+                    hasil = 1;
+                }
+                else
+                {
+                    hasil = 2;
+                }
             }
             else
             {
-                hasil = 2;
+                hasil = 0;
             }
             return hasil;
         }
@@ -103,35 +110,42 @@ namespace API.Repository.Data
         public int ChangePassword(ChangePasswordVM changePasswordVM)
         {
             int hasil = 0;
-            var cekEmail = myContext.Employees.SingleOrDefault(e => e.Email == changePasswordVM.Email);
-            if (changePasswordVM.Email != "")
+            if (changePasswordVM.Email !="")
             {
-                var cekAccount = myContext.Account.SingleOrDefault(a => a.NIK == cekEmail.NIK);
-                if (cekAccount.OTP == changePasswordVM.OTP)
+                var cekEmail = myContext.Employees.SingleOrDefault(e => e.Email == changePasswordVM.Email);
+                if (cekEmail != null)
                 {
-                    if (cekAccount.IsUsed == false)
+                    var cekAccount = myContext.Account.SingleOrDefault(a => a.NIK == cekEmail.NIK);
+                    if (cekAccount.OTP == changePasswordVM.OTP)
                     {
-                        if (cekAccount.Expired > DateTime.Now)
+                        if (cekAccount.IsUsed == false)
                         {
-                            cekAccount.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordVM.NewPassword);
-                            cekAccount.IsUsed = true;
-                            myContext.Entry(cekAccount).State = EntityState.Modified;
-                            myContext.SaveChanges();
-                            hasil = 1;
+                            if (cekAccount.Expired > DateTime.Now)
+                            {
+                                cekAccount.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordVM.NewPassword);
+                                cekAccount.IsUsed = true;
+                                myContext.Entry(cekAccount).State = EntityState.Modified;
+                                myContext.SaveChanges();
+                                hasil = 1;
+                            }
+                            else
+                            {
+                                hasil = 2;
+                            }
                         }
                         else
                         {
-                            hasil = 2;
+                            hasil = 3;
                         }
                     }
                     else
                     {
-                        hasil = 3;
+                        hasil = 4;
                     }
                 }
                 else
                 {
-                    hasil = 4;
+                    hasil = 5;
                 }
             }
             else
