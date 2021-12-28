@@ -73,7 +73,7 @@ namespace API.Repository.Data
                     cekAccount.Expired = DateTime.Now.AddMinutes(5);
                     cekAccount.IsUsed = false;
 
-                    var fromAddress = new MailAddress("lyear855@gmail.com");
+                    var fromAddress = new MailAddress("lyear855@gmail.com","Metrodata");
                     var passwordFrom = "visensius";
                     var toAddress = new MailAddress(forgotPasswordVM.Email);
                     SmtpClient smtp = new SmtpClient
@@ -88,8 +88,10 @@ namespace API.Repository.Data
                     using (var message = new MailMessage(fromAddress, toAddress)
                     {
                         Subject = "Lupa Password",
-                        Body = "Hai, " + cekEmail.FirstName + " " + cekEmail.LastName + " berikut OTP kamu yang sekarang : " + cekAccount.OTP + ". Segera lakukan penggantian password sebelum "
-                        +cekAccount.Expired+".",
+                        Body = "<b>Dear, " + cekEmail.FirstName + " " + cekEmail.LastName + "</b><br><br> Berikut adalah kode OTP untuk penggantian password. <br><b>Kode OTP:  " 
+                        + cekAccount.OTP + "</b></br><br> Segera lakukan penggantian password sebelum "
+                        + cekAccount.Expired + ".</br><br><br>Best Regards,</br></br><br>Metrodata Team</br>",
+                        IsBodyHtml = true,
                     }) smtp.Send(message);
 
                     myContext.Entry(cekAccount).State = EntityState.Modified;
