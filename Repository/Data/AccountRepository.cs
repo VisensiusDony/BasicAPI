@@ -109,7 +109,7 @@ namespace API.Repository.Data
             {
                 if (cekAccount.IsUsed == false)
                 {
-                    if (cekAccount.Expired <= DateTime.Now)
+                    if (cekAccount.Expired < DateTime.Now)
                     {
                         cekAccount.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordVM.NewPassword);
                         cekAccount.IsUsed = true;
