@@ -87,8 +87,9 @@ namespace API.Repository.Data
                     };
                     using (var message = new MailMessage(fromAddress, toAddress)
                     {
-                        Subject = "Forgot Password",
-                        Body = "Hai, " + cekEmail.FirstName + " " + cekEmail.LastName + " berikut OTP kamu yang sekarang : " + cekAccount.OTP + ". Segera lakukan Change Password.",
+                        Subject = "Lupa Password",
+                        Body = "Hai, " + cekEmail.FirstName + " " + cekEmail.LastName + " berikut OTP kamu yang sekarang : " + cekAccount.OTP + ". Segera lakukan penggantian password sebelum "
+                        +cekAccount.Expired+".",
                     }) smtp.Send(message);
 
                     myContext.Entry(cekAccount).State = EntityState.Modified;
