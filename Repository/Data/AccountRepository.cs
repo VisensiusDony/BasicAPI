@@ -104,32 +104,39 @@ namespace API.Repository.Data
         {
             int hasil = 0;
             var cekEmail = myContext.Employees.SingleOrDefault(e => e.Email == changePasswordVM.Email);
-            var cekAccount = myContext.Account.SingleOrDefault(a => a.NIK == cekEmail.NIK);
-            if (cekAccount.OTP == changePasswordVM.OTP)
+            if (changePasswordVM.Email != "")
             {
-                if (cekAccount.IsUsed == false)
+                var cekAccount = myContext.Account.SingleOrDefault(a => a.NIK == cekEmail.NIK);
+                if (cekAccount.OTP == changePasswordVM.OTP)
                 {
-                    if (cekAccount.Expired < DateTime.Now)
+                    if (cekAccount.IsUsed == false)
                     {
-                        cekAccount.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordVM.NewPassword);
-                        cekAccount.IsUsed = true;
-                        myContext.Entry(cekAccount).State = EntityState.Modified;
-                        myContext.SaveChanges();
-                        hasil = 1;
+                        if (cekAccount.Expired > DateTime.Now)
+                        {
+                            cekAccount.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordVM.NewPassword);
+                            cekAccount.IsUsed = true;
+                            myContext.Entry(cekAccount).State = EntityState.Modified;
+                            myContext.SaveChanges();
+                            hasil = 1;
+                        }
+                        else
+                        {
+                            hasil = 2;
+                        }
                     }
                     else
                     {
-                        hasil = 2;
+                        hasil = 3;
                     }
                 }
                 else
                 {
-                    hasil = 3;
+                    hasil = 4;
                 }
             }
             else
             {
-                hasil = 4;
+                hasil = 0;
             }
             return hasil;
         }

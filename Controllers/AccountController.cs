@@ -45,25 +45,6 @@ namespace API.Controllers
             var getData = accountRepository.ForgotPassword(forgotPasswordVM);
             if (getData == 1)
             {
-                /*var fromAddress = new MailAddress("dony.9a.40@gmail.com", "Aplikasi API");
-                var toAddress = new MailAddress(forgotPasswordVM.Email, "user");
-                const string fromPassword = "XROSS@BLAST";
-                string subject = "Reset Password " + DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss");
-                string body = "Hai, " + "user" + " berikut password kamu yang sekarang : " + ". Segera lakukan Change Password.";
-
-                var smtp = new SmtpClient();
-                smtp.Host = "smtp.gmail.com";
-                smtp.Port = 587;
-                smtp.UseDefaultCredentials = true;
-                smtp.Credentials = new NetworkCredential(fromAddress.Address, fromPassword);
-                using (var message = new MailMessage(fromAddress, toAddress)
-                {
-                    Subject = subject,
-                    Body = body
-                })
-                {
-                    smtp.Send(message);
-                }*/
                 return Ok(new { status = HttpStatusCode.OK, getData, message = "Email telah terkirim" });
             }
             else
@@ -79,10 +60,10 @@ namespace API.Controllers
             return getData switch
             {
                 1 => Ok(new { status = HttpStatusCode.OK, getData, message = "Change Password Success" }),
-                2 => BadRequest(new { status = HttpStatusCode.BadRequest, getData, message = "OTP expired" }),
+                2 => BadRequest(new { status = HttpStatusCode.BadRequest, getData, message = "OTP expired, request OTP again!" }),
                 3 => BadRequest(new { status = HttpStatusCode.BadRequest, getData, message = "OTP already used" }),
                 4 => BadRequest(new { status = HttpStatusCode.BadRequest, getData, message = "OTP incorrect" }),
-                _ => BadRequest(new { status = HttpStatusCode.BadRequest, getData, message = "Change Password Failed" }),
+                _ => BadRequest(new { status = HttpStatusCode.BadRequest, getData, message = "Change Password Failed, your email is empty" }),
             };
         }
 
