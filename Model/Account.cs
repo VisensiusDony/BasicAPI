@@ -14,10 +14,12 @@ namespace API.Model
         [Key]
         public string NIK { get; set; }
         public string Password { get; set; }
-        
         //[JsonIgnore]
         public virtual Profilling Profilling { get; set; }
         [JsonIgnore]
         public virtual Employee Employee { get; set; }
+        public int OTP { get; set; }
+        public bool IsUsed { get; set; }
+        public DateTime Expired { get; set; }
     }
 }

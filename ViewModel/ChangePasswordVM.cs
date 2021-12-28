@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 
 namespace API.ViewModel
 {
-    public class ResetPasswordVM
+    public class ChangePasswordVM
     {
         public string Email { get; set; }
+        public int OTP { get; set; }
+        public string NewPassword { get; set; }
+        
     }
 }
