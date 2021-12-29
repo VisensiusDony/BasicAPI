@@ -102,7 +102,7 @@ namespace API.Repository.Data
                         var accountrole = new AccountRole
                         {
                             AccountId = employee.NIK,
-                            RoleId = registerVM.RoleId
+                            RoleId = 3
                         };
                         var education = new Education
                         {
@@ -130,6 +130,44 @@ namespace API.Repository.Data
             }
             return hasil;
         }
+        /*public int AssignManager(AssignManagerVM assignManagerVM)
+        {
+            int hasil = 1;
+            var cekNIK = myContext.Employees.SingleOrDefault(e => e.NIK == assignManagerVM.NIK);
+            var cekAccount = myContext.Account.SingleOrDefault(a => a.NIK == cekNIK.NIK);
+            
+            if (cekNIK != null)
+            {
+                var cekAccountRole = myContext.AccountRole.FirstOrDefault(ar => ar.AccountId == cekNIK.NIK);
+                var cekroleId = myContext.Roles.Where(r => r.AccountRole.Any(ar => ar.Account.NIK == assignManagerVM.NIK));
+                foreach (var item in cekroleId)
+                {
+                    var id = item.RoleId;
+                }
+                if (cekroleId == 1)
+                {
+                    hasil = 2;
+                }
+                else
+                {
+                    var accountrole = new AccountRole
+                    {
+                        AccountId = cekNIK.NIK,
+                        RoleId = 1
+                    };
+                    myContext.AccountRole.Add(accountrole);
+                    //myContext.SaveChanges();
+                    myContext.SaveChanges();
+                    hasil = 1;
+                }
+
+            }
+            else
+            {
+                hasil = 0;
+            }
+            return hasil;
+        }*/
         public IEnumerable GetRegisteredData()
         {
             var query = (from employee in myContext.Set<Employee>()

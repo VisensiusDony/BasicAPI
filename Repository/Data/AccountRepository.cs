@@ -54,9 +54,10 @@ namespace API.Repository.Data
                     roles = role.RoleName
                 });
                         var claims = new List<Claim>();
+                        claims.Add(new Claim("Email", loginVM.Email));
                         foreach (var item in data)
                         {
-                            claims.Add(new Claim("email", item.email));
+                            //claims.Add(new Claim("email", item.email));
                             claims.Add(new Claim("roles", item.roles));
                         }
                         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -102,41 +103,6 @@ namespace API.Repository.Data
             
         }
 
-        /*public string GenerateLogin(LoginVM loginVM)
-        {
-            var data = (
-                from account in myContext.Account
-                join employee in myContext.Employees
-                on account.NIK equals employee.NIK
-                join accountRole in myContext.AccountRole
-                on account.NIK equals accountRole.AccountId
-                join role in myContext.Roles
-                on accountRole.RoleId equals role.RoleId
-                where employee.Email == loginVM.Email
-                select new
-                {
-                    Email = employee.Email,
-                    Roles = role.RoleName
-                });
-            var claims = new List<Claim>();
-            foreach (var item in data)
-            {
-                claims.Add(new Claim("Email", item.Email));
-                claims.Add(new Claim("Roles", item.Roles));
-            }
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(
-                        _configuration["Jwt:Issuer"],
-                        _configuration["Jwt:ClientId"],
-                        claims, 
-                        expires: DateTime.UtcNow.AddMinutes(10), 
-                        signingCredentials: signIn
-                        );
-            var idtoken = new JwtSecurityTokenHandler().WriteToken(token);
-            claims.Add(new Claim("TokenSecurity", idtoken.ToString()));
-            return idtoken;
-        }*/
 
         public int ForgotPassword(ForgotPasswordVM forgotPasswordVM)
         {
