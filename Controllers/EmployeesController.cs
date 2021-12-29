@@ -182,7 +182,7 @@ else
             };
         }
 
-        /*[Authorize(Roles = "Director")]
+        [Authorize(Roles = "Director")]
         [HttpPost]
         [Route("/AssignManager")]
         public ActionResult AssignManager(AssignManagerVM assignManagerVM)
@@ -191,10 +191,10 @@ else
             return register switch
             {
                 1 => Ok(new { status = HttpStatusCode.OK, register, message = "Assign Manager Success" }),
-                2 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Already assign manager" }),
-                _ => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Assign Manager Failed" }),
+                2 => BadRequest(new { status = HttpStatusCode.BadRequest,register, message = "Already assign manager" }),
+                _ => BadRequest(new { status = HttpStatusCode.BadRequest,register, message = "Assign Manager Failed" }),
             };
-        }*/
+        }
 
         [Authorize]
         [HttpGet("/TestJWT")]

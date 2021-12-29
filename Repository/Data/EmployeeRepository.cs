@@ -130,21 +130,25 @@ namespace API.Repository.Data
             }
             return hasil;
         }
-        /*public int AssignManager(AssignManagerVM assignManagerVM)
+        public int AssignManager(AssignManagerVM assignManagerVM)
         {
             int hasil = 1;
             var cekNIK = myContext.Employees.SingleOrDefault(e => e.NIK == assignManagerVM.NIK);
             var cekAccount = myContext.Account.SingleOrDefault(a => a.NIK == cekNIK.NIK);
-            
+            int temp = 0;
             if (cekNIK != null)
             {
                 var cekAccountRole = myContext.AccountRole.FirstOrDefault(ar => ar.AccountId == cekNIK.NIK);
-                var cekroleId = myContext.Roles.Where(r => r.AccountRole.Any(ar => ar.Account.NIK == assignManagerVM.NIK));
+                var cekroleId = myContext.Roles.Where(r => r.AccountRole.Any(ar => ar.Account.NIK == assignManagerVM.NIK)).ToList();
                 foreach (var item in cekroleId)
                 {
                     var id = item.RoleId;
+                    if (item.RoleId == 1)
+                    {
+                        temp += 1;
+                    }
                 }
-                if (cekroleId == 1)
+                if (temp==1)
                 {
                     hasil = 2;
                 }
@@ -167,7 +171,7 @@ namespace API.Repository.Data
                 hasil = 0;
             }
             return hasil;
-        }*/
+        }
         public IEnumerable GetRegisteredData()
         {
             var query = (from employee in myContext.Set<Employee>()
