@@ -20,7 +20,7 @@ namespace API.Context
         public DbSet<Education> Educations { get; set; }
         public DbSet<Profilling> Profillings { get; set; }
         public DbSet<Account> Account { get; set; }
-        public DbSet<Role> Role { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<AccountRole> AccountRole { get; set; }
 
 

@@ -23,6 +23,7 @@ namespace API.ViewModel
         public string Degree { get; set; }
         public float GPA { get; set; }
         public int UniversityId { get; set; }
+        public int RoleId { get; set; }
 
     }
     public enum Gender

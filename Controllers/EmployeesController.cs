@@ -2,8 +2,8 @@
 using API.Repository;
 using API.Repository.Data;
 using API.ViewModel;
-using Castle.Core.Configuration;
 using DurableTask.Core.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +15,6 @@ using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace API.Controllers
 {
@@ -31,7 +30,7 @@ namespace API.Controllers
 
 
         //public EmployeesController(EmployeeRepository employeeRepository)
-        public EmployeesController(EmployeeRepository employeeRepository,IConfiguration configuration) :base(employeeRepository)
+        public EmployeesController(EmployeeRepository employeeRepository, IConfiguration configuration) : base(employeeRepository)
         {
             this.employeeRepository = employeeRepository;
             this._configuration = configuration;
@@ -66,27 +65,27 @@ namespace API.Controllers
             {
                 return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Insert Failed, NIK already exists!" });
             }*/
-        /*var insert = employeeRepository.Insert(employee);
-        if (insert == 0)
-        {
-            return Ok("Insert Data Successfull");
-        }
-        else
-        {
-            if (insert == 2) 
+            /*var insert = employeeRepository.Insert(employee);
+            if (insert == 0)
             {
-                return BadRequest("Insert Failed, NIK already exists!");
-            }
-            else if (insert == 3)
-            {
-                return BadRequest("Insert Failed, Phone already exists!");
+                return Ok("Insert Data Successfull");
             }
             else
             {
-                return BadRequest("Insert Failed, Email already exists!");
-            }
-        }*/
-    }
+                if (insert == 2) 
+                {
+                    return BadRequest("Insert Failed, NIK already exists!");
+                }
+                else if (insert == 3)
+                {
+                    return BadRequest("Insert Failed, Phone already exists!");
+                }
+                else
+                {
+                    return BadRequest("Insert Failed, Email already exists!");
+                }
+            }*/
+        }
         /*[HttpDelete("{NIK}")]
         public ActionResult Delete<entity> (string NIK)
         {
@@ -150,7 +149,7 @@ else
             {
                 return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Data is empty, can't update data!!" });
             }
-            
+
         }
 
         [HttpGet]
@@ -183,6 +182,14 @@ else
             };
         }
 
+        [Authorize]
+        [HttpGet("/TestJWT")]
+        public ActionResult TestJWT() {
+            return Ok("Test JWT berhasil");
+        }
+
+        //[AllowAnonymous]
+        [Authorize(Roles = "Director,Manager")]
         [HttpGet("/GetRegisteredData")]
         public ActionResult GetRegisteredData()
         {

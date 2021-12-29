@@ -2,27 +2,34 @@
 using API.Model;
 using API.ViewModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Reflection;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace API.Repository.Data
 {
     public class AccountRepository : GeneralRepository<MyContext, Account, string>
     {
+        public IConfiguration _configuration;
         private readonly MyContext myContext;
-        public AccountRepository(MyContext myContext) : base(myContext)
+        public AccountRepository(IConfiguration configuration,MyContext myContext) : base(myContext)
         {
             this.myContext = myContext;
+            this._configuration = configuration;
         }
-        public int Login(LoginVM loginVM)
+        public string Login(LoginVM loginVM)
         {
-            int hasil = 0;
+            var hasil = "0";
             if (loginVM.Email != "" && loginVM.Password != "")
             {
                 var cekEmail = myContext.Employees.SingleOrDefault(e => e.Email == loginVM.Email);
@@ -32,32 +39,104 @@ namespace API.Repository.Data
                     bool cekPassword = BCrypt.Net.BCrypt.Verify(loginVM.Password, cekAccountPass.Password);
                     if (cekPassword)
                     {
-                        hasil = 1;
+                        var data = (
+                from account in myContext.Account
+                join employee in myContext.Employees
+                on account.NIK equals employee.NIK
+                join accountRole in myContext.AccountRole
+                on account.NIK equals accountRole.AccountId
+                join role in myContext.Roles
+                on accountRole.RoleId equals role.RoleId
+                where employee.Email == loginVM.Email
+                select new
+                {
+                    email = employee.Email,
+                    roles = role.RoleName
+                });
+                        var claims = new List<Claim>();
+                        foreach (var item in data)
+                        {
+                            claims.Add(new Claim("email", item.email));
+                            claims.Add(new Claim("roles", item.roles));
+                        }
+                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                        var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                        var token = new JwtSecurityToken(
+                                    _configuration["Jwt:Issuer"],
+                                    _configuration["Jwt:Audience"],
+                                    claims,
+                                    expires: DateTime.UtcNow.AddDays(1),
+                                    signingCredentials: signIn
+                                    );
+                        var idtoken = new JwtSecurityTokenHandler().WriteToken(token);
+                        claims.Add(new Claim("TokenSecurity", idtoken.ToString()));
+                        return idtoken;
                     }
                     else
                     {
-                        hasil = 2;
+                        hasil = "2";
+                        return hasil;
                     }
                 }
                 else
                 {
-                    hasil = 3;
+                    hasil = "3";
+                    return hasil;
                 }
             }
             else if (loginVM.Email == "" && loginVM.Password != "")
             {
-                hasil = 4;
+                hasil = "4";
+                return hasil;
             }
             else if (loginVM.Email != "" && loginVM.Password == "")
             {
-                hasil = 5;
+                hasil = "5";
+                return hasil;
             }
             else
             {
-                hasil = 0;
+                hasil = "0";
+                return hasil;
             }
-            return hasil;
+            
         }
+
+        /*public string GenerateLogin(LoginVM loginVM)
+        {
+            var data = (
+                from account in myContext.Account
+                join employee in myContext.Employees
+                on account.NIK equals employee.NIK
+                join accountRole in myContext.AccountRole
+                on account.NIK equals accountRole.AccountId
+                join role in myContext.Roles
+                on accountRole.RoleId equals role.RoleId
+                where employee.Email == loginVM.Email
+                select new
+                {
+                    Email = employee.Email,
+                    Roles = role.RoleName
+                });
+            var claims = new List<Claim>();
+            foreach (var item in data)
+            {
+                claims.Add(new Claim("Email", item.Email));
+                claims.Add(new Claim("Roles", item.Roles));
+            }
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityToken(
+                        _configuration["Jwt:Issuer"],
+                        _configuration["Jwt:ClientId"],
+                        claims, 
+                        expires: DateTime.UtcNow.AddMinutes(10), 
+                        signingCredentials: signIn
+                        );
+            var idtoken = new JwtSecurityTokenHandler().WriteToken(token);
+            claims.Add(new Claim("TokenSecurity", idtoken.ToString()));
+            return idtoken;
+        }*/
 
         public int ForgotPassword(ForgotPasswordVM forgotPasswordVM)
         {

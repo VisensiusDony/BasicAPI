@@ -2,6 +2,7 @@ using API.Context;
 using API.Repository;
 using API.Repository.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -40,6 +41,8 @@ namespace API
             services.AddScoped<AccountRepository>();
             services.AddScoped<EducationRepository>();
             services.AddScoped<ProfillingRepository>();
+            services.AddScoped<RoleRepository>();
+            services.AddScoped<AccountRoleRepository>();
             //services.AddScoped<GeneralRepository>();
             services.AddDbContext<MyContext>(options =>
             options
@@ -56,15 +59,33 @@ namespace API
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidAudience = Configuration["Jwt:Audience"],
-                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    //ValidIssuer = Configuration["Jwt:Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+           /* services.AddAuthorization(option =>
+            {
+                option.AddPolicy("Director",
+                authBuilder =>
+                {
+                    authBuilder.RequireRole("Director");
+                });
+                option.AddPolicy("Manager",
+                authBuilder =>
+                {
+                    authBuilder.RequireRole("Manager");
+                });
+                option.AddPolicy("Employee",
+                authBuilder =>
+                {
+                    authBuilder.RequireRole("Employee");
+                });
+            });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

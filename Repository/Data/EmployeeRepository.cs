@@ -2,6 +2,7 @@
 using API.Model;
 using API.ViewModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,11 +14,13 @@ namespace API.Repository.Data
 {
     public class EmployeeRepository : GeneralRepository<MyContext, Employee, string>
     {
+        public IConfiguration _configuration;
         private readonly MyContext myContext;
         //Hash hash = new Hash();
-        public EmployeeRepository(MyContext myContext) : base(myContext)
+        public EmployeeRepository(MyContext myContext, IConfiguration configuration) : base(myContext)
         {
             this.myContext = myContext;
+            this._configuration = configuration;
         }
 
         public int Inserted(Employee employee)
@@ -96,7 +99,11 @@ namespace API.Repository.Data
                             NIK = employee.NIK,
                             Password = BCrypt.Net.BCrypt.HashPassword(registerVM.Password)
                         };
-
+                        var accountrole = new AccountRole
+                        {
+                            AccountId = employee.NIK,
+                            RoleId = registerVM.RoleId
+                        };
                         var education = new Education
                         {
                             Degree = registerVM.Degree,
@@ -106,6 +113,7 @@ namespace API.Repository.Data
                         myContext.Employees.Add(employee);
                         //myContext.SaveChanges();
                         myContext.Account.Add(account);
+                        myContext.AccountRole.Add(accountrole);
                         //myContext.SaveChanges();
                         myContext.Educations.Add(education);
                         myContext.SaveChanges();
