@@ -51,7 +51,7 @@ namespace API
             //.UseLazyLoadingProxies()
             .UseSqlServer(Configuration.GetConnectionString("API")));
 
-            services.AddAuthentication(auth=>
+            services.AddAuthentication(auth =>
             {
                 auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -78,6 +78,25 @@ namespace API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API v1", Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http, //We set the scheme type to http since we're using bearer authentication
+                    Scheme = "bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement{
+                {
+                    new OpenApiSecurityScheme{
+                    Reference = new OpenApiReference{
+                    Id = "Bearer", //The name of the previously defined security scheme.
+                    Type = ReferenceType.SecurityScheme
+                }
+                },new List<string>()
+                }
+                });
             });
 
             /* services.AddAuthorization(option =>
@@ -110,10 +129,10 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseSwagger();
-           
+
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint(url:"/swagger/v1/swagger.json",name:"My API v1");
+                c.SwaggerEndpoint(url: "/swagger/v1/swagger.json", name: "My API v1");
             });
 
             app.UseRouting();
