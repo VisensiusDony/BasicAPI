@@ -13,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,6 +75,11 @@ namespace API
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
             });
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API v1", Version = "v1" });
+            });
+
             /* services.AddAuthorization(option =>
              {
                  option.AddPolicy("Director",
@@ -100,8 +107,14 @@ namespace API
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+           
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint(url:"/swagger/v1/swagger.json",name:"My API v1");
+            });
 
             app.UseRouting();
 

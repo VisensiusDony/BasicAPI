@@ -26,9 +26,5 @@ namespace API.ViewModel
         public int RoleId { get; set; }
 
     }
-    public enum Gender
-    {
-        Male = 0,
-        Female = 1
-    }
+    
 }

@@ -220,7 +220,7 @@ else
 
            
         }
-        [HttpGet("GetRegisteredEager")]
+        [HttpGet("/GetRegisteredEager")]
         public ActionResult GetRegisteredEager()
         {
             var getData = employeeRepository.GetRegisteredData2();
@@ -267,7 +267,7 @@ else
         }
 
         [HttpGet("TestCORS")]
-        //[EnableCors("AllowOrigin")]
+        [EnableCors("AllowOrigin")]
         public ActionResult TestCORS()
         {
             return Ok("Test CORS berhasil");
