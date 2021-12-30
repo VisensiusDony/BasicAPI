@@ -4,6 +4,7 @@ using API.Repository.Data;
 using API.ViewModel;
 using DurableTask.Core.Common;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -219,7 +220,7 @@ else
 
            
         }
-        [HttpGet("/GetRegisteredEager")]
+        [HttpGet("GetRegisteredEager")]
         public ActionResult GetRegisteredEager()
         {
             var getData = employeeRepository.GetRegisteredData2();
@@ -265,6 +266,13 @@ else
             }
         }
 
-        
+        [HttpGet("TestCORS")]
+        //[EnableCors("AllowOrigin")]
+        public ActionResult TestCORS()
+        {
+            return Ok("Test CORS berhasil");
+        }
+
+
     }
 }

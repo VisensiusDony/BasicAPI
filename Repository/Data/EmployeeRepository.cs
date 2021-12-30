@@ -181,6 +181,10 @@ namespace API.Repository.Data
                             on account.NIK equals profiling.NIK
                          join education in myContext.Set<Education>()
                             on profiling.EducationId equals education.EducationId
+                         /*join accountrole in myContext.Set<AccountRole>()
+                            on employee.NIK equals accountrole.AccountId
+                         join role in myContext.Set<Role>()
+                            on accountrole.AccountRoleId equals role.RoleId*/
                          join university in myContext.Set<University>()
                             on education.UniversityId equals university.UniversityId
                          orderby employee.FirstName
@@ -195,7 +199,8 @@ namespace API.Repository.Data
                              Gender = employee.Gender.ToString(),
                              education.Degree,
                              education.GPA,
-                             university.UniversityName
+                             university.UniversityName,
+                             //role.RoleName
                          });
             return query.ToList();
         }

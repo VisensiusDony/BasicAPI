@@ -68,24 +68,29 @@ namespace API
                 };
             });
 
-           /* services.AddAuthorization(option =>
+            services.AddCors(c =>
             {
-                option.AddPolicy("Director",
-                authBuilder =>
-                {
-                    authBuilder.RequireRole("Director");
-                });
-                option.AddPolicy("Manager",
-                authBuilder =>
-                {
-                    authBuilder.RequireRole("Manager");
-                });
-                option.AddPolicy("Employee",
-                authBuilder =>
-                {
-                    authBuilder.RequireRole("Employee");
-                });
-            });*/
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
+
+            /* services.AddAuthorization(option =>
+             {
+                 option.AddPolicy("Director",
+                 authBuilder =>
+                 {
+                     authBuilder.RequireRole("Director");
+                 });
+                 option.AddPolicy("Manager",
+                 authBuilder =>
+                 {
+                     authBuilder.RequireRole("Manager");
+                 });
+                 option.AddPolicy("Employee",
+                 authBuilder =>
+                 {
+                     authBuilder.RequireRole("Employee");
+                 });
+             });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,6 +108,8 @@ namespace API
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseCors(options => options.AllowAnyOrigin());
 
             app.UseEndpoints(endpoints =>
             {
