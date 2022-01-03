@@ -37,7 +37,7 @@ namespace API.Controllers
             var login = accountRepository.Login(loginVM);
             return login switch
             {
-                //1 => Ok(new { status = HttpStatusCode.OK, idToken = accountRepository.GenerateLogin(loginVM), message = "Login Success" }),
+                //1 => Ok(new { status = HttpStatusCode.OK, idToken = accountRepository.GenerateLogin(loginVM), message = "Login Success congrats" }),
                 "2" => BadRequest(new { status = HttpStatusCode.BadRequest, login, message = "Password incorrect" }),
                 "3" => BadRequest(new { status = HttpStatusCode.BadRequest, login, message = "Email is not registered" }),
                 "4" => BadRequest(new { status = HttpStatusCode.BadRequest, login, message = "The email you entered is empty" }),
