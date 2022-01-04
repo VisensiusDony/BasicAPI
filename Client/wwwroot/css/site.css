@@ -83,29 +83,63 @@ a{
 }*/
 
 *{
-    margin:0;
-    padding:0;
+    margin:auto;
 }
-div {
+/*div {
     height: 250px;
-    width: 250px;
+    width: 250px;*/
     /*display:inline-block;*/
-}
-.satu{
-    background-color : aqua;
-   /* margin: 10px 20px 30px 40px;
+/*}*/
+.satu {
+    background-color: aqua;
+    height: 100px;
+    width: 100px;
+    /* margin: 10px 20px 30px 40px;
     padding: 5px 10px 15px 20px;*/
+    /*position:sticky;
+   top:0;*/
+    z-index: 999;
 }
 
 .dua {
     background-color: red;
+    height: 100px;
+    width: 100px;
+    position:relative;
+    top:-20px;
+    left:20px;
+    z-index:-25;
 }
-.tiga
-{
+.tiga {
     background-color: lightcoral;
+    height: 100px;
+    width: 100px;
+    position: relative;
+    top: -50px;
+    left: 50px;
+    z-index: -50;
 }
 
-a{
-    background-color:deeppink;
-    padding:50px;
+.pembungkus{
+    width:500px;
+    height:700px;
+    border:1px solid black;
+    position:relative;
+}
+
+a {
+    background-color: deeppink;
+    padding: 50px;
+}
+#head {
+    background: black;
+    color: white;
+    height: 50px;
+    padding: 25px;
+}
+input[type=text] {
+    background: none;
+    color: cyan;
+    padding: 10px;
+    border: 1px solid cyan;
 }
