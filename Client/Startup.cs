@@ -35,7 +35,7 @@ namespace Client
             }
             else
             {
-                app.UseExceptionHandler("/TestCORS/Error");
+                app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -50,7 +50,7 @@ namespace Client
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=TestCORS}/{action=Index}/{id?}");
+                    pattern: "{controller=Exercise}/{action=Index}/{id?}");
             });
         }
     }
