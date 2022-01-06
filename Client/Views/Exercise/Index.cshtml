@@ -3,7 +3,7 @@
 *@
 @{
     ViewData["Title"] = "Home Page";
-    Layout = "_LayoutLatihan";
+    //Layout = "_LayoutLatihan";
 }
 @*<div class="test"></div>
     <h1 class="judul">Halo ini judul</h1>
@@ -13,7 +13,7 @@
     <a href="">Link 2</a>
     <a href="">Link 3</a>
 *@
-<header id="head">
+<!--<header id="head">
     <h1>Welcome</h1>
     
 </header>
@@ -26,10 +26,40 @@
 
 <a href="javascript:alert('Wih! hebat bukan?')">Link 1</a>
 <a href="">Link 2</a>
-<script>
+<script>-->
     @*alert("Selamat datang di tutorial belajar Javascript");*@
-    function sayHello() {
+    <!--function sayHello() {
         alert("Hello!");
     }
 </script>
-<button onclick="sayHello()">Klik Aku!</button>
+<button onclick="sayHello()">Klik Aku!</button>-->
+
+<div class="container">
+    <h1 id="title" class="title">Bahasa Pemrograman Java</h1>
+    <button id="button" type="button" class="java btn btn-primary"><a href="https://localhost:44375/">Java</a></button>
+    <button id="button" type="button" class="csharp btn btn-secondary">C#</button>
+    <button id="button" type="button" class="php btn btn-success">Php</button>
+    <button id="button" type="button" class="python btn btn-danger">Python</button>
+    <button id="button" type="button" class="time btn btn-warning" onclick="this.innerHTML=Date()">ClickMe!</button>
+    <iframe class="center" src="https://www.youtube.com/embed/jiUxHm9l1KY">
+    </iframe>
+    <p id="p1">
+        Java merupakan bahasa yang diciptakan oleh James Gosling di tahun 1990-an. Java muncul sebagai bahasa yang dapat dijalankan di berbagai platform tanpa perlu re-kompilasi. Berdasarkan TIOBE Programming Community Index,
+        Java masih merupakan salah satu bahasa pemrograman terpopuler di dunia. Oracle menyatakan 90% perusahaan terkemuka pada daftar Fortune 500 pernah menggunakan bahasa Java. Selain itu, Java juga dapat digunakan untuk mengembangkan
+        aplikasi pada platform desktop, web, mobile, embedded, dan IoT.
+    </p>
+
+    <p id="p2">
+        Bahasa Java merupakan bahasa terpopuler yang pernah digunakan oleh 90% perusahaan ternama.
+        Dengan bahasa Java, Anda dapat mengembangkan aplikasi untuk platform desktop, web, mobile, hingga embedded dan IoT.
+        Siapa pun Anda, jika ingin menjadi Java Developer harus memiliki pengetahuan dasar pemrograman Java seperti Java Dasar, Control Flow, Collection Type, dan Object-Oriented Programming.
+        Penggunaan bahasa Java itu gratis (open source), sehingga siapa saja dapat mempelajari dan menggunakannya.
+        Berdasarkan TIOBE Programming Community Index, Java masih menjadi salah satu bahasa pemrograman terpopuler di dunia.
+    </p>
+    <ul>
+        <li class="list1" id="list1">List 1</li>
+        <li class="list2" id="list2">List 2</li>
+        <li class="list3" id="list3">List 3</li>
+    </ul>
+
+</div>

@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
+}
+
+<h1 class="mb-5">List Data</h1>
+
+<table class="table table-dark mt-5">
+     <thead>
+         <tr>
+             <th>No</th>
+             <th>Nama</th>
+             <th>Action</th>
+         </tr>
+     </thead>
+     <tbody class=" tablePoke">
+         <tr>
+             <td>1</td>
+             <td>tessting</td>
+             <td>
+                <button class="btn btn-primary">Detail</button>
+              </td>
+         </tr>
+     </tbody>
+</table>
+
+ <div class="modal fade" id="getPoke" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                 </button>
+             </div>
+             <div class="modal-body" id="detailModal">
+                 <div class="container">
+                     <div class="text-center" id="detailImage">
+                         <img src="yew.com" alt=""/>
+                     </div>
+                     <div class="row">
+                         <div class="col" id="typePoke">
+                             <span class="badge1 badge-primary">pokemon</span>
+                             <span class="badge2 badge-danger">pokemon</span>
+                         </div>
+                     </div>
+                     <div class="row">
+                         <div class="col">Name</div>
+                         <div class="detailName">: Pokemon</div>
+                     </div>
+                     <div class="row">
+                         <div class="col">Ability</div>
+                         <div class="ability">: Pokemon</div>
+                     </div>
+                     <div class="row">
+                         <div class="col">Weight</div>
+                         <div class="weight">:100 Kg</div>
+                     </div>
+                     <div class="row">
+                         <div class="col">Height</div>
+                         <div class="height">:200 Cm</div>
+                     </div>
+                 </div>
+             </div>
+                     <div class="modal-footer">
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                         <button type="button" class="btn btn-primary">Save changes</button>
+                     </div>
+                 </div>
+     </div>
+ </div>
+

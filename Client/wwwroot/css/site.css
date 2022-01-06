@@ -69,36 +69,151 @@ body {*/
   white-space: nowrap;
   line-height: 60px;*/ /* Vertically center the text there */
 /*}*/
-
-/*.test{
+.test{
     background-color : cyan;
     height : 200px;
-    width : 400px;
+    width : 300px;
+    display:inline-block;
+    padding:50px;
+}
+.nav {
+    background-color: black;
+    list-style-type: none;
+    text-align: center;
+    position: static;
+    top: 0;
+    margin-top: 50px;
+    padding: 0;
+}
+
+    .nav li {
+        display: inline-block;
+        font-size: 20px;
+        padding: 20px;
+        color:white;
+    }
+button#button {
+    position: static;
+    top: 0;
+    margin-top: 50px;
+    padding: 0;
+}
+.con1 {
+    margin-top: 50px;
+    position:static;
+}
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+.navbar-expand-lg {
+    position: fixed;
+    width: 100%;
+    z-index:999;
+}
+.row{
+    margin:auto;
+    top:50px
+}
+/*h1{
+    position:relative;
+    top:50px;
+}
+*/
+p {
+    font-size: 20px;
+    text-align: justify;
 }
 a{
-    display:inline-block;
-    background-color : green;
-    height:200px;
-    width:400px;
-}*/
+    color:white;
+}
+li:visited {
+    color: green;
+}
 
-*{
+/* mouse over link */
+li:hover {
+    color: hotpink;
+    background-color: red;
+}
+.alert:hover{
+    background-color: yellow;
+}
+
+/* selected link */
+li:active {
+    color: blue;
+}
+p#p1::first-letter {
+    color: #ff0000;
+    font-size: 200%;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.desc {
+    padding: 15px;
+    text-align: center;
+}
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+/**{
+    margin:15px;
+    border:2px solid #ddd;
+    padding: 15px;
+}
+body{
+    max-width:700px;
     margin:auto;
 }
+.judul {
+    background-color: salmon;
+}
+#a p.p2{
+    background-color:lightblue;
+}
+section#b ul li.list:nth-child(2):hover {
+    background-color: lightgreen;
+}*/
 /*div {
     height: 250px;
     width: 250px;*/
     /*display:inline-block;*/
 /*}*/
-.satu {
+/*.satu {
     background-color: aqua;
     height: 100px;
-    width: 100px;
+    width: 100px;*/
     /* margin: 10px 20px 30px 40px;
     padding: 5px 10px 15px 20px;*/
     /*position:sticky;
    top:0;*/
-    z-index: 999;
+    /*z-index: 999;
 }
 
 .dua {
@@ -142,4 +257,6 @@ input[type=text] {
     color: cyan;
     padding: 10px;
     border: 1px solid cyan;
-}
+}*/
+
+
