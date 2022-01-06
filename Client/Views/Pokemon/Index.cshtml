@@ -3,8 +3,7 @@
     Layout = "_Layout";
 }
 
-<h1 class="mb-5">List Data</h1>
-
+<h1 class="mb-5">Pokedex</h1>
 <table class="table table-dark mt-5">
      <thead>
          <tr>
@@ -13,7 +12,7 @@
              <th>Action</th>
          </tr>
      </thead>
-     <tbody class=" tablePoke">
+     <tbody class=" tablePoke table-light" style="color:black">
          <tr>
              <td>1</td>
              <td>tessting</td>
@@ -28,43 +27,47 @@
      <div class="modal-dialog" role="document">
          <div class="modal-content">
              <div class="modal-header">
-                 <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                 <h5 class="modal-title" id="exampleModalLabel">Pokemon Detail</h5>
                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                      <span aria-hidden="true">&times;</span>
                  </button>
              </div>
              <div class="modal-body" id="detailModal">
                  <div class="container">
+
                      <div class="text-center" id="detailImage">
-                         <img src="yew.com" alt=""/>
+                         <img src="" alt="" />
                      </div>
-                     <div class="row">
-                         <div class="col" id="typePoke">
-                             <span class="badge1 badge-primary">pokemon</span>
-                             <span class="badge2 badge-danger">pokemon</span>
+                     <div class="row" >
+                         <span class="badge" style="font-size: 20px; margin: auto">pokemon</span>
+                     </div>
+                     <div class="text-center bg-secondary" style="color: white "><b>Detail</b></div>
+                     <div style="color: black ">
+                         <div class="row">
+                             <div class="col"><b>NAME</b></div>
+                             <div class="detailName col">Pokemon</div>
+                         </div>
+                         <div class="row">
+                             <div class="col"><b>ABILITY</b></div>
+                             <div class="ability col">Pokemon</div>
+                         </div>
+                         <div class="row">
+                             <div class="col"><b>WEIGHT</b></div>
+                             <div class="weight col">100</div>
+                         </div>
+                         <div class="row">
+                             <div class="col"><b>HEIGHT</b></div>
+                             <div class="height col">200</div>
                          </div>
                      </div>
-                     <div class="row">
-                         <div class="col">Name</div>
-                         <div class="detailName">: Pokemon</div>
-                     </div>
-                     <div class="row">
-                         <div class="col">Ability</div>
-                         <div class="ability">: Pokemon</div>
-                     </div>
-                     <div class="row">
-                         <div class="col">Weight</div>
-                         <div class="weight">:100 Kg</div>
-                     </div>
-                     <div class="row">
-                         <div class="col">Height</div>
-                         <div class="height">:200 Cm</div>
+                     <div class="text-center bg-secondary" style="color: white "><b>Stat</b></div>
+                     <div style="color: black " id="stat">
+                         
                      </div>
                  </div>
              </div>
                      <div class="modal-footer">
                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                         <button type="button" class="btn btn-primary">Save changes</button>
                      </div>
                  </div>
      </div>

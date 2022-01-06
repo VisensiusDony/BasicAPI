@@ -69,29 +69,6 @@ body {*/
   white-space: nowrap;
   line-height: 60px;*/ /* Vertically center the text there */
 /*}*/
-.test{
-    background-color : cyan;
-    height : 200px;
-    width : 300px;
-    display:inline-block;
-    padding:50px;
-}
-.nav {
-    background-color: black;
-    list-style-type: none;
-    text-align: center;
-    position: static;
-    top: 0;
-    margin-top: 50px;
-    padding: 0;
-}
-
-    .nav li {
-        display: inline-block;
-        font-size: 20px;
-        padding: 20px;
-        color:white;
-    }
 button#button {
     position: static;
     top: 0;
@@ -120,11 +97,11 @@ button#button {
     margin:auto;
     top:50px
 }
-/*h1{
+h1{
     position:relative;
     top:50px;
 }
-*/
+
 p {
     font-size: 20px;
     text-align: justify;
@@ -182,6 +159,7 @@ p#p1::first-letter {
     margin-right: auto;
     width: 50%;
 }
+
 /**{
     margin:15px;
     border:2px solid #ddd;

@@ -205,32 +205,66 @@ function getData2(link) {
         console.log(result);
         var ability = "";
         $.each(result.abilities, function (key, val) {
-            ability += `${val.ability.name}`;
+            ability += `${val.ability.name}&nbsp|&nbsp`;
         });
         var typePoke = "";
         $.each(result.types, function (key, val) {
-            typePoke += `<span>${val.type.name}</span> &nbsp`;
-                if (val.type.name == "water") {
-                    $(".badge1").html(val.type.name);
-                } else if (val.type.name == "grass") {
-                    $(".badge1").html(val.type.name);
-                } else if (val.type.name == "poison") {
-                    $(".badge2").html(val.type.name);
-                }
+            typePoke += typePokeColor(val.type.name) +"&nbsp";
+        });
+
+        function typePokeColor(val) {
+            if (val == "grass") {
+                var color = `<span class="badge badge-success" style="text-align: center;">${val}</span>`;
+                return color;
+            }
+            else if (val == "water") {
+                var color = `<span class="badge badge-primary" style="text-align: center;">${val}</span>`;
+                return color;
+            }
+            else if (val == "poison") {
+                var color = `<span class="badge badge-dark" style="text-align: center;">${val}</span>`;
+                return color;
+            }
+            else if (val == "normal") {
+                var color = `<span class="badge badge-light" style="text-align: center;">${val}</span>`;
+                return color;
+            }
+            else if (val == "fire") {
+                var color = `<span class="badge badge-danger" style="text-align: center;">${val}</span>`;
+                return color;
+            }
+            else if (val == "electric") {
+                var color = `<span class="badge badge-warning" style="text-align: center;">${val}</span>`;
+                return color;
+            }
+            else {
+                var color = `<span class="badge badge-secondary" style="text-align: center;">${val}</span>`;
+                return color;
+            }
+        }
+        var statPoke = "";
+        $.each(result.stats, function (key, val) {
+            statPoke += `<div class="row">
+                         <div class="col" id="base" style="text-transform:uppercase"><b>${val.stat.name}</b></div>
+                         <div class="baseStat col">: ${val.base_stat}</div></div>`;
         });
         var img=""
         img += `
-            <img src="${result.sprites.other.dream_world.front_default}" alt=""/></div>`;
+            <img src="${result.sprites.other.dream_world.front_default}" alt="" width="200" height="200" style="background-color:gainsboro;" class="rounded-circle"/></div>`;
 
-        $(".detailName").html(result.name);
-        $(".ability").html(ability);
-        $(".height").html(result.height);
-        $(".weight").html(result.weight);
+        $(".detailName").html(": "+result.name);
+        $(".ability").html(": | " +ability);
+        $(".height").html(": " +result.height);
+        $(".weight").html(": " + result.weight);
+        $("#stat").html(statPoke);
+        $(".badge").html(typePoke);
+            
         
         $("#detailImage").html(img);
-        
         
     }).fail((error)=> {
         console.log(error);
     });
 }
+
+
