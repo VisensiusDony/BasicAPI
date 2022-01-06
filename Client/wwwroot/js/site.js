@@ -205,7 +205,7 @@ function getData2(link) {
         console.log(result);
         var ability = "";
         $.each(result.abilities, function (key, val) {
-            ability += `${val.ability.name}&nbsp|&nbsp`;
+            ability += /*`${val.ability.name}&nbsp|&nbsp`*/ `<span class="ability badge-pill badge-light" style="text-align">${val.ability.name}</span> &nbsp`;
         });
         var typePoke = "";
         $.each(result.types, function (key, val) {
@@ -250,10 +250,10 @@ function getData2(link) {
         });
         var img=""
         img += `
-            <img src="${result.sprites.other.dream_world.front_default}" alt="" width="200" height="200" style="background-color:gainsboro;" class="rounded-circle"/></div>`;
+            <img src="${result.sprites.other.dream_world.front_default}" alt="" width="250" height="250" style="background-color:gainsboro;" class="rounded-circle shadow p-0 mb-5 rounded"/></div>`;
 
         $(".detailName").html(": "+result.name);
-        $(".ability").html(": | " +ability);
+        $(".ability").html(":" +ability);
         $(".height").html(": " +result.height);
         $(".weight").html(": " + result.weight);
         $("#stat").html(statPoke);
