@@ -69,10 +69,10 @@ $("h1.title").mouseenter(function () {
     alert("Welcome in Bahasa Pemrograman!");
 });
 
-$("h1").hover(function () {
+/*$("h1").hover(function () {
     $(this).fadeOut(100);
     $(this).fadeIn(500);
-});
+});*/
 
 
 
@@ -137,134 +137,246 @@ for (let i = 0; i < animals.length; i++) {
 console.log(animals);
 console.log(OnlyCat);
 
-$.ajax({
-    url: "https://pokeapi.co/api/v2/pokemon"
+/*$.ajax({
+    url: "https://pokeapi.co/api/v2/pokemon?limit=200&offset=200"
 }).done((result) => {
     console.log(result);
     console.log(result.results);
     var text = "";
     $.each(result.results, function (key, val){
         text += `<tr>
-                <td>${key+1}</td>
                 <td>${val.name}</td>
+                <td class="text-capitalize">${val.url}</td>
                 <td><button type="button" value= "${val.url}"
-                        onclick="getData2(this.value)" class="btn btn-primary" data-toggle="modal" data-target="#getPoke">Detail</td>
+                        onclick="getData(this.value)" class="btn btn-primary" data-toggle="modal" data-target="#getPoke">Detail</td>
                 </tr>`;
     });
 $(".tablePoke").html(text);
 }).fail((error)=> {
     console.log(error);
+});*/
+
+$(document).ready(function () {
+    $('#tableEmployee').DataTable({
+        "dom": 'Bfrtip',
+        "buttons": [
+            {
+                extend: 'copy',
+                className: 'btn-warning btn-outline',
+                text: '<i class="fa fa-files-o" style="color:black"> <b>Copy</b></i>'
+            },
+            {
+                extend: 'csv',
+                className: 'btn-primary btn-outline',
+                text: '<i class="fa fa-file-text-o" style="color:white"><b>Csv</b></i>',
+                exportOptions: {
+                    columns:[1,2,3,4,5,6,7,8]
+                }
+            },
+            {
+                extend: 'excel',
+                className: 'btn-success btn-outline',
+                text: '<i class="fa fa-file-excel-o" style="color:black"> <b>Excel</b> </i>',
+                exportOptions: {
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8]
+                }
+            },
+            {
+                extend: 'pdf',
+                className: 'btn-danger btn-outline',
+                text: '<i class="fa fa-file-pdf-o" style="color:white"> <b>PDF</b></i>',
+                exportOptions: {
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8]
+                }
+            },
+            {
+                extend: 'print',
+                className: 'btn-info btn-outline',
+                text: '<i class="fa fa-print" style="color:black"> <b>Print</b></i>'
+            }
+        ],
+        'ajax': {
+            'url': "https://localhost:44392/GetRegisteredData",
+            'dataType': 'json',
+            'dataSrc': ''
+        },
+        'columns': [
+            {
+                'data': null,
+                'render': function (data, type, row, meta) {
+                    return (meta.row + meta.settings._iDisplayStart + 1);
+                }
+            },
+            {
+                'data': 'nik'
+            },
+            {
+                'data': 'fullName'
+            },
+            {
+                'data': 'gender'
+            }, {
+                'data': 'email'
+                
+            }, {
+                'data': null,
+                'render': function (data, type, row, meta) {
+                    return formatRupiah('' + row['salary'], '');
+                }
+                
+            }, {
+                'data': 'phone',
+                'bSortable' : false
+            }, {
+                'data': 'birthDate',
+                'render': (data, type, row) => {
+                    var dataGet = new Date(row['birthDate']);
+                    return dataGet.toLocaleDateString();
+                }
+            },
+            {
+                'data': 'universityName'
+            },
+            {
+                'data': null,
+                'render': function (data, type, row, meta) {
+                    return '<button class="fa fa-pencil"  data-id="' + row['nik'] + '" data-toggle="modal" data-target=""></button>' +
+                        '<button class="fa fa-trash"  data-id="' + row['nik'] + '" data-toggle="modal" data-target=""></button>';
+                },
+            }
+        ], 
+
+    });
 });
 
-function getData(link){
-    $.ajax({
-        url: link
-    }).done((result) => {
-        text = "";
-        srcAbility = "";
-        $.each(result.abilities, function (key, val) {
-            srcAbility += `${val.ability.name + "&nbsp"},`;
-        });
-        srcHeld = " ";
-        $.each(result.types, function (key, val) {
-            srcHeld += `<span class="badge badge-secondary">${val.type.name}</span> &nbsp`;
-        });
-        text += `<div class="container">
-            <div class="text-center">
-            <img src="${result.sprites.other.dream_world.front_default}" alt="" /></div>
-            <div class="row">
-                <div class="col">${srcHeld}</div>
-            </div>
-            <div class="row">
-                <div class="col">Name </div>
-                <div class="col">: ${result.name}</div>
-           </div>
-            <div class="row">
-                <div class="col">Ability</div>
-                <div class="col">: ${srcAbility}</div>
-            </div>
-            <div class="row">
-               <div class="col">Weight</div>
-                <div class="col">: ${result.weight} Kg</div>
-            </div>
-            <div class="row">
-                <div class="col">Height</div>
-                <div class="col">: ${result.height} Cm</div>
-            </div></div>`;
-    
-    $(".modal-body").html(text);
-}).fail((error) => {
-       console.log(error);
-    });
+
+function formatRupiah(angka, prefix) {
+    var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split = number_string.split(','),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    if (ribuan) {
+        separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+    }
+
+    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+    return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
 }
 
-function getData2(link) {
-    $.ajax({
-        url: link
-    }).done((result) => {
-        console.log(result);
-        var ability = "";
-        $.each(result.abilities, function (key, val) {
-            ability += /*`${val.ability.name}&nbsp|&nbsp`*/ `<span class="ability badge-pill badge-light" style="text-align">${val.ability.name}</span> &nbsp`;
+    /*function getData(link){
+        $.ajax({
+            url: link
+        }).done((result) => {
+            text = "";
+            srcAbility = "";
+            $.each(result.abilities, function (key, val) {
+                srcAbility += `${val.ability.name + "&nbsp"},`;
+            });
+            srcHeld = " ";
+            $.each(result.types, function (key, val) {
+                srcHeld += `<span class="badge badge-secondary">${val.type.name}</span> &nbsp`;
+            });
+            text += `<div class="container">
+                <div class="text-center">
+                <img src="${result.sprites.other.dream_world.front_default}" alt="" /></div>
+                <div class="row">
+                    <div class="col">${srcHeld}</div>
+                </div>
+                <div class="row">
+                    <div class="col">Name </div>
+                    <div class="col">: ${result.name}</div>
+               </div>
+                <div class="row">
+                    <div class="col">Ability</div>
+                    <div class="col">: ${srcAbility}</div>
+                </div>
+                <div class="row">
+                   <div class="col">Weight</div>
+                    <div class="col">: ${result.weight} Kg</div>
+                </div>
+                <div class="row">
+                    <div class="col">Height</div>
+                    <div class="col">: ${result.height} Cm</div>
+                </div></div>`;
+        
+        $(".modal-body").html(text);
+    }).fail((error) => {
+           console.log(error);
         });
-        var typePoke = "";
-        $.each(result.types, function (key, val) {
-            typePoke += typePokeColor(val.type.name) +"&nbsp";
-        });
+    }*/
 
-        function typePokeColor(val) {
-            if (val == "grass") {
-                var color = `<span class="badge badge-success" style="text-align: center;">${val}</span>`;
-                return color;
+    /*function getData(link) {
+        $.ajax({
+            url: link
+        }).done((result) => {
+            console.log(result);
+            var ability = "";
+            $.each(result.abilities, function (key, val) {
+                ability += *//*`${val.ability.name}&nbsp|&nbsp`*//* `<span class="ability badge-pill badge-light text-capitalize" style="text-align">${val.ability.name}</span> &nbsp`;
+            });
+            var typePoke = "";
+            $.each(result.types, function (key, val) {
+                typePoke += typePokeColor(val.type.name) + "&nbsp";
+            });
+
+            function typePokeColor(val) {
+                if (val == "grass") {
+                    var color = `<span class="badge badge-success text-capitalize" style="text-align: center;">${val}</span>`;
+                    return color;
+                }
+                else if (val == "water") {
+                    var color = `<span class="badge badge-primary text-capitalize" style="text-align: center;">${val}</span>`;
+                    return color;
+                }
+                else if (val == "poison") {
+                    var color = `<span class="badge badge-dark text-capitalize" style="text-align: center;">${val}</span>`;
+                    return color;
+                }
+                else if (val == "normal") {
+                    var color = `<span class="badge badge-light text-capitalize" style="text-align: center;">${val}</span>`;
+                    return color;
+                }
+                else if (val == "fire") {
+                    var color = `<span class="badge badge-danger text-capitalize" style="text-align: center;">${val}</span>`;
+                    return color;
+                }
+                else if (val == "electric") {
+                    var color = `<span class="badge badge-warning text-capitalize" style="text-align: center;">${val}</span>`;
+                    return color;
+                }
+                else {
+                    var color = `<span class="badge badge-secondary text-capitalize" style="text-align: center;">${val}</span>`;
+                    return color;
+                }
             }
-            else if (val == "water") {
-                var color = `<span class="badge badge-primary" style="text-align: center;">${val}</span>`;
-                return color;
-            }
-            else if (val == "poison") {
-                var color = `<span class="badge badge-dark" style="text-align: center;">${val}</span>`;
-                return color;
-            }
-            else if (val == "normal") {
-                var color = `<span class="badge badge-light" style="text-align: center;">${val}</span>`;
-                return color;
-            }
-            else if (val == "fire") {
-                var color = `<span class="badge badge-danger" style="text-align: center;">${val}</span>`;
-                return color;
-            }
-            else if (val == "electric") {
-                var color = `<span class="badge badge-warning" style="text-align: center;">${val}</span>`;
-                return color;
-            }
-            else {
-                var color = `<span class="badge badge-secondary" style="text-align: center;">${val}</span>`;
-                return color;
-            }
-        }
-        var statPoke = "";
-        $.each(result.stats, function (key, val) {
-            statPoke += `<div class="row">
-                         <div class="col" id="base" style="text-transform:uppercase"><b>${val.stat.name}</b></div>
-                         <div class="baseStat col">: ${val.base_stat}</div></div>`;
-        });
-        var img=""
-        img += `
+            var statPoke = "";
+            $.each(result.stats, function (key, val) {
+                statPoke += `<div class="row">
+                         <div class="text-capitalize" id="base" ><b>${val.stat.name}</b></div>
+                         </div>
+                            <div class="row progress">
+                          <div class="progress-bar" role="progressbar" style="width: ${val.base_stat + "%"};" aria-valuenow="${val.base_stat}" aria-valuemin="0" aria-valuemax="1000">${val.base_stat}</div>
+                           </div>`;
+            });
+            var img = ""
+            img += `
             <img src="${result.sprites.other.dream_world.front_default}" alt="" width="250" height="250" style="background-color:gainsboro;" class="rounded-circle shadow p-0 mb-5 rounded"/></div>`;
 
-        $(".detailName").html(": "+result.name);
-        $(".ability").html(":" +ability);
-        $(".height").html(": " +result.height);
-        $(".weight").html(": " + result.weight);
-        $("#stat").html(statPoke);
-        $(".badge").html(typePoke);
-            
-        
-        $("#detailImage").html(img);
-        
-    }).fail((error)=> {
-        console.log(error);
-    });
-}
+            $(".detailName").html(result.name);
+            $(".ability").html(":" + ability);
+            $(".height").html(": " + result.height);
+            $(".weight").html(": " + result.weight);
+            $("#stat").html(statPoke);
+            $(".badge").html(typePoke);
 
+
+            $("#detailImage").html(img);
+
+        }).fail((error) => {
+            console.log(error);
+        });
+    }*/
 

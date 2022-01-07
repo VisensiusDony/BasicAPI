@@ -92,6 +92,7 @@ button#button {
     position: fixed;
     width: 100%;
     z-index:999;
+    top:0;
 }
 .row{
     margin:auto;
@@ -105,9 +106,6 @@ h1{
 p {
     font-size: 20px;
     text-align: justify;
-}
-a{
-    color:white;
 }
 li:visited {
     color: green;
@@ -159,6 +157,45 @@ p#p1::first-letter {
     margin-right: auto;
     width: 50%;
 }
+
+.btn-outline {
+    background-color: transparent;
+    color: inherit;
+    transition: all .5s;
+}
+
+.btn-primary.btn-outline {
+    
+    background-color: blue;
+}
+
+.btn-success.btn-outline {
+    
+    background-color: greenyellow;
+}
+
+.btn-info.btn-outline {
+    
+    background-color: lightgray;
+}
+
+.btn-warning.btn-outline {
+    
+    background-color: yellow;
+}
+
+.btn-danger.btn-outline {
+    
+    background-color: red;
+}
+
+    .btn-primary.btn-outline:hover,
+    .btn-success.btn-outline:hover,
+    .btn-info.btn-outline:hover,
+    .btn-warning.btn-outline:hover,
+    .btn-danger.btn-outline:hover {
+        color: #fff;
+    }
 
 /**{
     margin:15px;

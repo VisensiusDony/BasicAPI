@@ -203,8 +203,8 @@ else
             return Ok("Test JWT berhasil");
         }
 
-        //[AllowAnonymous]
-        [Authorize(Roles = "Director,Manager")]
+        [AllowAnonymous]
+        //[Authorize(Roles = "Director,Manager")]
         [HttpGet("/GetRegisteredData")]
         public ActionResult GetRegisteredData()
         {
