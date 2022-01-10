@@ -304,20 +304,46 @@ function Insert() {
     obj.GPA = parseFloat($("#gpa").val());
     obj.Degree = $("#degree").val();
     obj.UniversityId =parseInt($("#univ").val());
-    console.log(obj);
     $.ajax({
         url: "https://localhost:44392/Register",
         type: "POST",
         dataType: "json",
         contentType:"application/json",
-        data: JSON.stringify(obj), 
+        data: JSON.stringify(obj),
+
 }).done((result) => {
-    alert("Registration Successfull!");
-    
+    Swal.fire({
+        icon: 'success',
+        title: result.message,
+    });
+    table.ajax.reload(null, false);
+    $('body').removeClass('modal-open');
+    $('#regisModal').modal('hide');
+    $('.modal-backdrop').remove();
 }).fail((error) => {
-    alert("Registration Failed! Try Again!");
+    Swal.fire({
+        icon: 'error',
+        title: 'Registrasi Gagal',
+        text: error.responseJSON.message,
+    });
 });
 }
+
+window.addEventListener('load', () => {
+    var forms = document.getElementsByClassName('needs-validation');
+    for (let form of forms) {
+        form.addEventListener('submit', (evt) => {
+            if (!form.checkValidity()) {
+                evt.preventDefault();
+                evt.stopPropagation();
+            } else {
+                evt.preventDefault();
+                Insert();
+            }
+            form.classList.add('was-validated');
+        });
+    }
+});
 
 
 function formatRupiah(angka, prefix) {

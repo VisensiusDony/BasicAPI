@@ -91,42 +91,49 @@
 
                 <form class="needs-validation" novalidate>
                     @*<div class="form-row">
-                        <div class="col-md mb-3">
-                            <label for="nik">NIK</label>
-                            <input type="text" class="form-control" id="nik" readonly required>
-                        </div>
-                    </div>*@
+            <div class="col-md mb-3">
+                <label for="nik">NIK</label>
+                <input type="text" class="form-control" id="nik" readonly required>
+            </div>
+        </div>*@
                     <div class="form-row">
-                            <div class="col-md mb-3">
-                                <label for="firstName">First name</label>
-                                <input type="text" class="form-control" id="firstName" required>
-                                <div class="invalid-feedback">
-                                    Please choose a First Name.
-                                </div>
-                            </div>
-
-                            <div class="col-md mb-3">
-                                <label for="lastName">Last name</label>
-                                <input type="text" class="form-control" id="lastName" required>
-                                <div class="invalid-feedback">
-                                    Please choose a Last Name.
-                                </div>
+                        <div class="col-md mb-3">
+                            <label for="firstName">First name</label>
+                            <input type="text" class="form-control" id="firstName" required>
+                            <div class="invalid-feedback">
+                                Please choose a First Name.
                             </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="col-md mb-3">
-                                <label for="gender">Gender</label>
-                                <div class="custom-control custom-radio">
+                        <div class="col-md mb-3">
+                            <label for="lastName">Last name</label>
+                            <input type="text" class="form-control" id="lastName" required>
+                            <div class="invalid-feedback">
+                                Please choose a Last Name.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="gender">Gender</label>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md mb-3">
+                            <div class="custom-control custom-radio">
+                                <div>
                                     <input type="radio" class="custom-control-input" id="gender" name="gender" value="0" required>
                                     <label class="custom-control-label" for="gender">Pria</label>
                                 </div>
-                                <div class="custom-control custom-radio mb-3">
+                            </div>
+                        </div>
+                        <div class="col-md mb-3">
+                            <div class="custom-control custom-radio">
+                                <div>
                                     <input type="radio" class="custom-control-input" id="gender1" name="gender" value="1" required>
                                     <label class="custom-control-label" for="gender1">Wanita</label>
-                                    <div class="invalid-feedback">Please choose gender.</div>
                                 </div>
                             </div>
+                        </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md mb-3">
@@ -184,6 +191,9 @@
                             <div class="col-md mb-3">
                                 <label for="gpa">GPA</label>
                                 <input type="number" step="0.01" class="form-control" id="gpa" required>
+                                <div class="invalid-feedback">
+                                    Please input your GPA.
+                                </div>
                             </div>
                         </div>
                         <div class="form-row">
