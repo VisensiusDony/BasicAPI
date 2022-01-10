@@ -158,11 +158,12 @@ $(".tablePoke").html(text);
 
 $(document).ready(function () {
     $('#tableEmployee').DataTable({
+        responsive:true,
         "dom": 'Bfrtip',
         "buttons": [
             {
                 extend: 'copy',
-                className: 'btn-warning btn-outline',
+                className: 'mt-2 btn-warning btn-outline',
                 text: '<i class="fa fa-files-o" style="color:black"> <b>Copy</b></i>'
             },
             {
@@ -182,8 +183,10 @@ $(document).ready(function () {
                 }
             },
             {
-                extend: 'pdf',
+                extend: 'pdfHtml5',
                 className: 'btn-danger btn-outline',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
                 text: '<i class="fa fa-file-pdf-o" style="color:white"> <b>PDF</b></i>',
                 exportOptions: {
                     columns: [1, 2, 3, 4, 5, 6, 7, 8]
@@ -219,14 +222,19 @@ $(document).ready(function () {
                 'data': 'email'
                 
             }, {
-                'data': null,
+                'data': 'salary',
                 'render': function (data, type, row, meta) {
                     return formatRupiah('' + row['salary'], '');
                 }
+
                 
             }, {
                 'data': 'phone',
-                'bSortable' : false
+                render: function (data, type, row) {
+                    return "+62" + data.slice(1)
+                },
+                'bSortable': false,
+                 'ordering': false
             }, {
                 'data': 'birthDate',
                 'render': (data, type, row) => {
@@ -239,6 +247,8 @@ $(document).ready(function () {
             },
             {
                 'data': null,
+                'bSortable': false,
+                'ordering': false,
                 'render': function (data, type, row, meta) {
                     return '<button class="fa fa-pencil"  data-id="' + row['nik'] + '" data-toggle="modal" data-target=""></button>' +
                         '<button class="fa fa-trash"  data-id="' + row['nik'] + '" data-toggle="modal" data-target=""></button>';
