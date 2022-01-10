@@ -157,7 +157,7 @@ $(".tablePoke").html(text);
 });*/
 
 $(document).ready(function () {
-    $('#tableEmployee').DataTable({
+   var table = $('#tableEmployee').DataTable({
         responsive:true,
         "dom": 'Bfrtip',
         "buttons": [
@@ -260,6 +260,66 @@ $(document).ready(function () {
 });
 
 
+$.ajax({
+    'url': "https://localhost:44392/api/University",
+}).done((result) => {
+    text = "<option selected disabled value=\"\">Choose...</option>";
+    $.each(result.success, function (key, val) {
+        text += `<option value="${val.universityId}">${val.universityName}</option>`;
+    });
+    $("#univ").html(text);
+}).fail((error) => {
+    console.log(error);
+});
+
+$('#univ').change(function () {
+    let univ = $(this).val();
+    $.ajax({
+        'url': 'https://localhost:44392/api/Education',
+    }).done((result) => {
+        text = "<option selected disabled value=\"\">Choose...</option>";
+        $.each(result.success, function (key, val) {
+            if (univ == val.universityId) {
+                text += `<option value="${val.degree}">${val.degree}</option>`;
+            }
+        });
+        $("#degree").html(text);
+    }).fail((error) => {
+        console.log(error);
+    });
+});
+
+function Insert() {
+    var obj = new Object(); 
+    //ini ngambil value dari tiap inputan di form nya
+    /*obj.NIK = $("#nik").val();*/
+    obj.FirstName = $("#firstName").val();
+    obj.LastName = $("#lastName").val();
+    obj.Email = $("#email").val();
+    obj.Salary = parseInt($("#salary").val());
+    obj.Gender = parseInt($("input[name=gender]:checked").val());
+    obj.BirthDate = $("#birthDate").val();
+    obj.PhoneNumber = $("#phoneNumber").val();
+    obj.Password = $("#password").val();
+    obj.GPA = parseFloat($("#gpa").val());
+    obj.Degree = $("#degree").val();
+    obj.UniversityId =parseInt($("#univ").val());
+    console.log(obj);
+    $.ajax({
+        url: "https://localhost:44392/Register",
+        type: "POST",
+        dataType: "json",
+        contentType:"application/json",
+        data: JSON.stringify(obj), 
+}).done((result) => {
+    alert("Registration Successfull!");
+    
+}).fail((error) => {
+    alert("Registration Failed! Try Again!");
+});
+}
+
+
 function formatRupiah(angka, prefix) {
     var number_string = angka.replace(/[^,\d]/g, '').toString(),
         split = number_string.split(','),
@@ -275,6 +335,8 @@ function formatRupiah(angka, prefix) {
     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
     return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
 }
+
+
 
     /*function getData(link){
         $.ajax({
