@@ -57,6 +57,7 @@ namespace API.Repository.Data
                 }
             }
         }
+
             public int Register(RegisterVM registerVM)
         {
             int hasil = 1;
@@ -130,6 +131,7 @@ namespace API.Repository.Data
             }
             return hasil;
         }
+
         public int AssignManager(AssignManagerVM assignManagerVM)
         {
             int hasil = 1;
@@ -196,7 +198,7 @@ namespace API.Repository.Data
                              employee.Salary,
                              employee.Phone,
                              employee.BirthDate,
-                             Gender = employee.Gender.ToString(),
+                             Gender = employee.Gender,
                              education.Degree,
                              education.GPA,
                              university.UniversityName,
@@ -264,10 +266,10 @@ namespace API.Repository.Data
         }
 
 
-        public int Update(string NIK, Employee employee)
+        public int UpdateNIK(Employee employee)
         {
 
-            var checkData = myContext.Employees.Find(NIK);
+            var checkData = myContext.Employees.Find(employee.NIK);
             if (checkData != null)
             {
                 myContext.Entry(checkData).State = EntityState.Detached;
@@ -280,7 +282,6 @@ namespace API.Repository.Data
             {
                 if (checkData.Phone == employee.Phone)
                 {
-                    employee.NIK = NIK;
                     myContext.Entry(employee).State = EntityState.Modified;
                     myContext.SaveChanges();
                     return 0;
@@ -294,7 +295,6 @@ namespace API.Repository.Data
                     }
                     else
                     {
-                        employee.NIK = NIK;
                         myContext.Entry(employee).State = EntityState.Modified;
                         myContext.SaveChanges();
                         return 0;
@@ -312,7 +312,6 @@ namespace API.Repository.Data
                     }
                     else
                     {
-                        employee.NIK = NIK;
                         myContext.Entry(employee).State = EntityState.Modified;
                         myContext.SaveChanges();
                         return 0;
@@ -327,7 +326,6 @@ namespace API.Repository.Data
                     }
                     else
                     {
-                        employee.NIK = NIK;
                         myContext.Entry(employee).State = EntityState.Modified;
                         myContext.SaveChanges();
                         return 0;

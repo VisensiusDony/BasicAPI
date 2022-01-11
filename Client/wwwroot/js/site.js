@@ -231,9 +231,6 @@ $(document).ready(function () {
                 
             }, {
                 'data': 'phone',
-                render: function (data, type, row) {
-                    return "+62" + data.slice(1)
-                },
                 'bSortable': false,
                  'ordering': false
             }, {
@@ -247,18 +244,52 @@ $(document).ready(function () {
                 'data': 'universityName'
             },
             {
-                'data': null,
+                'data': 'nik',
                 'bSortable': false,
                 'ordering': false,
                 'render': function (data, type, row, meta) {
-                    return '<button class="fa fa-edit"  data-id="' + row['nik'] + '" data-toggle="modal" data-target=""></button>' +
-                        '<button class="fa fa-trash"  data-id="' + row['nik'] + '" data-toggle="modal" data-target=""></button>';
+                    return '<button class="fa fa-edit"  value="' + row['nik'] + '" data-toggle="modal" data-target="#editModal"></button>' +
+                        '<button  value= "' +row['nik']+'" class="fa fa-trash" onclick="Delete(this.value)" data-id="' + row['nik'] + '" data-toggle="modal" data-target=""></button>';
                 },
             }
         ], 
 
     });
 });
+
+function Delete(key) {
+    Swal.fire({
+        title: 'Yakin ingin dihapus',
+        text: "Data akan dihapus dari database",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yakin',
+        cancelButtonColor: 'Batal',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "https://localhost:44392/api/Employees/"+key,
+                type: "delete",
+                crossDomain: true,
+            }).done((result) => {
+                Swal.fire(
+                    'Berhasil',
+                    result.messageResult,
+                    'success'
+                )
+                table.ajax.reload();
+            }).fail((error) => {
+                Swal.fire(
+                    'Gagal',
+                    'error'
+                )
+            })
+        }
+    })
+}
+
 
 
 $.ajax({
@@ -289,6 +320,58 @@ $('#univ').change(function () {
         console.log(error);
     });
 });
+
+$('#tableEmployee').on('click', '.fa-edit', function () {
+    let rowData = $('#tableEmployee').DataTable().row($(this).closest('tr')).data();
+    console.log(rowData);
+    Show(rowData);
+});
+
+function Show(data) {
+    $("#nikedit").val(data.nik);
+    $("#firstNameedit").val(data.fullName);
+    $("#lastNameedit").val(data.fullName);
+    $("#emailedit").val(data.email);
+    parseInt($("#salaryedit").val(data.salary));
+    parseInt($("#genderedit").val(data.gender));
+    $("#birthDateedit").val(data.birthDate);
+    $("#phoneNumberedit").val(data.phone);
+}
+function Edit() {
+    var obj = new Object();
+    obj.nik = $("#nikedit").val();
+    obj.FirstName = $("#firstNameedit").val();
+    obj.LastName = $("#lastNameedit").val();
+    obj.Email = $("#emailedit").val();
+    obj.Salary = parseInt($("#salaryedit").val());
+    obj.Gender = parseInt($("input[name=genderedit]:checked").val());
+    obj.BirthDate = $("#birthDateedit").val();
+    obj.Phone = $("#phoneNumberedit").val();
+    $.ajax({
+        url: "https://localhost:44392/api/Employees",
+        type: "PUT",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify(obj),
+    }).done((result) => {
+        console.log(obj);
+        Swal.fire({
+            icon: 'success',
+            title: result.message,
+        });
+        table.ajax.reload(null, false);
+        $('body').removeClass('modal-open');
+        $('#editModal').modal('hide');
+        $('.modal-backdrop').remove();
+    }).fail((error) => {
+        console.log(obj);
+        Swal.fire({
+            icon: 'error',
+            title: 'Edit Gagal',
+            text: error.responseJSON.message,
+        });
+    });
+}
 
 function Register() {
     var obj = new Object(); 
@@ -330,6 +413,7 @@ function Register() {
 });
 }
 
+
 window.addEventListener('load', () => {
     var forms = document.getElementsByClassName('needs-validation');
     for (let form of forms) {
@@ -346,6 +430,21 @@ window.addEventListener('load', () => {
     }
 });
 
+window.addEventListener('load', () => {
+    var forms = document.getElementsByClassName('needs-valid');
+    for (let form of forms) {
+        form.addEventListener('submit', (evt) => {
+            if (!form.checkValidity()) {
+                evt.preventDefault();
+                evt.stopPropagation();
+            } else {
+                evt.preventDefault();
+                Edit();
+            }
+            form.classList.add('was-validated');
+        });
+    }
+});
 
 function formatRupiah(angka, prefix) {
     var number_string = angka.replace(/[^,\d]/g, '').toString(),
@@ -362,6 +461,7 @@ function formatRupiah(angka, prefix) {
     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
     return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
 }
+
 
 
 
