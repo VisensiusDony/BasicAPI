@@ -170,7 +170,7 @@ $(document).ready(function () {
             {
                 extend: 'csv',
                 className: 'btn-primary btn-outline',
-                text: '<i class="fa fa-file-text-o" style="color:white"><b>Csv</b></i>',
+                text: '<i class="fa fa-file-csv" style="color:white"><b>Csv</b></i>',
                 exportOptions: {
                     columns:[1,2,3,4,5,6,7,8]
                 }
@@ -251,7 +251,7 @@ $(document).ready(function () {
                 'bSortable': false,
                 'ordering': false,
                 'render': function (data, type, row, meta) {
-                    return '<button class="fa fa-pencil"  data-id="' + row['nik'] + '" data-toggle="modal" data-target=""></button>' +
+                    return '<button class="fa fa-edit"  data-id="' + row['nik'] + '" data-toggle="modal" data-target=""></button>' +
                         '<button class="fa fa-trash"  data-id="' + row['nik'] + '" data-toggle="modal" data-target=""></button>';
                 },
             }
