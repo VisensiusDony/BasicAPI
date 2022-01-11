@@ -137,8 +137,8 @@ for (let i = 0; i < animals.length; i++) {
 console.log(animals);
 console.log(OnlyCat);
 
-/*$.ajax({
-    url: "https://pokeapi.co/api/v2/pokemon?limit=200&offset=200"
+$.ajax({
+    url: "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20"
 }).done((result) => {
     console.log(result);
     console.log(result.results);
@@ -154,10 +154,11 @@ console.log(OnlyCat);
 $(".tablePoke").html(text);
 }).fail((error)=> {
     console.log(error);
-});*/
+});
 
+var table = "";
 $(document).ready(function () {
-   var table = $('#tableEmployee').DataTable({
+   table = $('#tableEmployee').DataTable({
         responsive:true,
         "dom": 'Bfrtip',
         "buttons": [
@@ -289,7 +290,7 @@ $('#univ').change(function () {
     });
 });
 
-function Insert() {
+function Register() {
     var obj = new Object(); 
     //ini ngambil value dari tiap inputan di form nya
     /*obj.NIK = $("#nik").val();*/
@@ -338,7 +339,7 @@ window.addEventListener('load', () => {
                 evt.stopPropagation();
             } else {
                 evt.preventDefault();
-                Insert();
+                Register();
             }
             form.classList.add('was-validated');
         });
@@ -406,14 +407,14 @@ function formatRupiah(angka, prefix) {
         });
     }*/
 
-    /*function getData(link) {
+   function getData(link) {
         $.ajax({
             url: link
         }).done((result) => {
             console.log(result);
             var ability = "";
             $.each(result.abilities, function (key, val) {
-                ability += *//*`${val.ability.name}&nbsp|&nbsp`*//* `<span class="ability badge-pill badge-light text-capitalize" style="text-align">${val.ability.name}</span> &nbsp`;
+                ability += /*`${val.ability.name}&nbsp|&nbsp`*/ `<span class="ability badge-pill badge-light text-capitalize" style="text-align">${val.ability.name}</span> &nbsp`;
             });
             var typePoke = "";
             $.each(result.types, function (key, val) {
@@ -476,5 +477,5 @@ function formatRupiah(angka, prefix) {
         }).fail((error) => {
             console.log(error);
         });
-    }*/
+    }
 
