@@ -11,6 +11,7 @@ var data4 = document.getElementById("list3");
 
 chartGender();
 chartUniversity();
+chartSalary();
 
 /*data = document.addEventListener("mouseover", function () {
     data2.style.backgroundColor = "green";
@@ -491,6 +492,41 @@ function chartGender() {
                 }
             }
             var chart = new ApexCharts(document.querySelector("#chartGender"), options);
+            chart.render();
+        },
+        async: false
+    })
+}
+/*================================Chart Donut================================*/
+function chartSalary() {
+    upper = 0;
+    mid = 0;
+    jQuery.ajax({
+        url: 'https://localhost:44392/GetRegisteredData',
+        success: function (result) {
+            $.each(result, function (key, val) {
+                if (val.salary>5000000) {
+                    upper++;
+                }
+                else {
+                    mid++;
+                }
+            });
+            var options = {
+                chart: {
+                    type: 'donut',
+                    size: '50%'
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                series: [upper, mid],
+                labels: ['Gaji Di Atas 5jt', 'Gaji Di Bawah 5jt'],
+                noData: {
+                    text: 'Loading...'
+                }
+            }
+            var chart = new ApexCharts(document.querySelector("#chartSalary"), options);
             chart.render();
         },
         async: false
