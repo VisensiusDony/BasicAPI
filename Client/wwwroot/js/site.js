@@ -335,7 +335,6 @@ function Show(data) {
     else {
         gender = 1;
     }
-    console.log(gender);
     const name = data.fullName;
     const [firstName, lastName] = name.split(' ');
     $("#nikedit").val(data.nik);
@@ -343,7 +342,7 @@ function Show(data) {
     $("#lastNameedit").val(lastName);
     $("#emailedit").val(data.email);
     parseInt($("#salaryedit").val(data.salary));
-    parseInt($("#genderedit").val(gender));
+    $("#genderedit").val(gender).prop('checked', true);
     $("#birthDateedit").val(data.birthDate);
     $("#phoneNumberedit").val(data.phone);
 }
