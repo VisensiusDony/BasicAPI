@@ -27,10 +27,10 @@ namespace API.Controllers
         public ActionResult<Entity> Get()
         {
             var data = repository.Get().Count();
+            var result = repository.Get();
             if (data != 0)
             {
-                var success = repository.Get();
-                return Ok(new { status = HttpStatusCode.OK, success });
+                return Ok(result);
             }
             else
             {
