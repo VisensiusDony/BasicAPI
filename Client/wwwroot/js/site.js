@@ -9,7 +9,8 @@ var data4 = document.getElementById("list3");
 ///var data4 = document.querySelectorAll(".list");
 ///var data5 = $(".list").html("halo ini dirubah js");
 
-
+donut();
+chartUniversity();
 
 /*data = document.addEventListener("mouseover", function () {
     data2.style.backgroundColor = "green";
@@ -252,8 +253,7 @@ $(document).ready(function () {
                         '<button  value= "' +row['nik']+'" class="fa fa-trash" onclick="Delete(this.value)" data-id="' + row['nik'] + '" data-toggle="modal" data-target=""></button>';
                 },
             }
-        ], 
-
+       ],
     });
 });
 /*================================Delete Employee================================*/
@@ -458,6 +458,76 @@ window.addEventListener('load', () => {
     }
 });
 
+function donut() {
+    male = 0;
+    female = 0;
+    $.ajax({
+        url: 'https://localhost:44392/GetRegisteredData',
+        success: function (result) {
+            $.each(result, function (key, val) {
+                if (val.gender == "Female") {
+                    female++;
+                }
+                else {
+                    male++;
+                }
+            });
+            var options = {
+                chart: {
+                    type: 'donut',
+                    height: 300
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                series: [male, female],
+                labels: ['Male', 'Female'],
+                noData: {
+                    text: 'Loading...'
+                }
+            }
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+        },
+        async: false
+    })
+}
+/*================================Chart Bar================================*/
+function chartUniversity() {
+    let universityA = null;
+    let universityB = null;
+    let universityC = null;
+    jQuery.ajax({
+        url: 'https://localhost:44392/GetRegisteredData',
+        success: function (result) {
+            $.each(result, function (key, val) {
+                if (val.universityName == "Universitas Dian Nuswantoro") {
+                    universityA++;
+                } else if (val.universityName == "Universitas Diponegoro") {
+                    universityB++;
+                } else {
+                    universityC++;
+                }
+            });
+            var options = {
+                chart: {
+                    type: 'bar',
+                    height: 300
+                },
+                series: [{
+                    name: 'employee',
+                    data: [universityA, universityB, universityC]
+                }],
+                xaxis: {
+                    categories: ["Universitas Dian Nuswantoro", "Universitas Diponegoro", "Universitas Negeri Semarang"]
+                }
+            }
+            var barChart = new ApexCharts(document.querySelector("#barChart"), options);
+            barChart.render();
+        },
+        async: false
+    });
+}
 /*================================Format Salary================================*/
 function formatRupiah(angka, prefix) {
     var number_string = angka.replace(/[^,\d]/g, '').toString(),
