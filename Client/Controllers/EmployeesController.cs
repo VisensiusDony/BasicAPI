@@ -14,14 +14,27 @@ namespace Client.Controllers
 {
     public class EmployeesController : BaseController<Employee, EmployeeRepository, string>
     {
+         private readonly EmployeeRepository repository;
         public EmployeesController(EmployeeRepository repository) : base(repository)
         {
-            
+            this.repository = repository;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+        
+        public async Task<JsonResult> GetRegisteredData()
+        {
+            var result = await repository.GetRegisteredData();
+            return Json(result);
+        }
+        
+        public async Task<JsonResult> GetRegisteredView(string nik)
+        {
+            var result = await repository.GetRegisteredView(nik);
+            return Json(result);
         }
     }
 }

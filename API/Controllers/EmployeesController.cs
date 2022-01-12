@@ -205,7 +205,7 @@ else
 
         [AllowAnonymous]
         //[Authorize(Roles = "Director,Manager")]
-        [HttpGet("/GetRegisteredData")]
+        [HttpGet("GetRegisteredData")]
         public ActionResult GetRegisteredData()
         {
             var getData = employeeRepository.GetRegisteredData();
@@ -251,7 +251,7 @@ else
             }
         }
 
-        [HttpGet("/GetRegisteredData/{NIK}")]
+        [HttpGet("GetRegisteredData/{NIK}")]
         public ActionResult GetRegisteredData(string NIK)
         {
 

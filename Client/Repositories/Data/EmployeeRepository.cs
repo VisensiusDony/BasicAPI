@@ -1,13 +1,14 @@
 ﻿using API.Model;
-using API.ViewModel;
 using Client.Base;
 using Client.Repository;
+using Client.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Client.Repositories.Data
@@ -20,24 +21,32 @@ namespace Client.Repositories.Data
         private readonly HttpClient httpClient;
         public EmployeeRepository(Address address, string request = "Employees/") : base(address, request)
         {
-           
+            this.address = address;
+            this.request = request;
+            _contextAccessor = new HttpContextAccessor();
+            httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(address.link)
+            };
+            //JWT
+            //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _contextAccessor.HttpContext.Session.GetString("JWToken"));
         }
-        public async Task<List<RegisterVM>> GetRegistrasiView()
+        public async Task<List<RegisterVM>> GetRegisteredData()
         {
             List<RegisterVM> entities = new List<RegisterVM>();
 
-            using (var response = await httpClient.GetAsync(request + "GetProfil/"))
+            using (var response = await httpClient.GetAsync(request + "GetRegisteredData/"))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 entities = JsonConvert.DeserializeObject<List<RegisterVM>>(apiResponse);
             }
             return entities;
         }
-        public async Task<List<RegisterVM>> GetRegistrasiView(string nik)
+        public async Task<List<RegisterVM>> GetRegisteredView(string nik)
         {
             List<RegisterVM> entities = new List<RegisterVM>();
 
-            using (var response = await httpClient.GetAsync(request + "GetProfil/" + nik))
+            using (var response = await httpClient.GetAsync(request + "GetRegisteredData/" + nik))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 entities = JsonConvert.DeserializeObject<List<RegisterVM>>(apiResponse);
