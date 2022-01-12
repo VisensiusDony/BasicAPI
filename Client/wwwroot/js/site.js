@@ -480,10 +480,57 @@ function chartGender() {
             var options = {
                 chart: {
                     type: 'donut',
-                    size: '50%'
+                    size: '50%',
+                    toolbar: {
+                        show: true,
+                        offsetX: 0,
+                        offsetY: 0,
+                        tools: {
+                            download: true,
+                            selection: true,
+                            zoom: true,
+                            zoomin: true,
+                            zoomout: true,
+                            pan: true,
+                            reset: true | '<img src="/static/icons/reset.png" width="20">',
+                            customIcons: []
+                        },
+                        export: {
+                            csv: {
+                                filename: undefined,
+                                columnDelimiter: ',',
+                                headerCategory: 'category',
+                                headerValue: 'value',
+                                dateFormatter(timestamp) {
+                                    return new Date(timestamp).toDateString()
+                                }
+                            },
+                            svg: {
+                                filename: undefined,
+                            },
+                            png: {
+                                filename: undefined,
+                            }
+                        },
+                        autoSelected: 'zoom'
+                    },
                 },
                 dataLabels: {
-                    enabled: false
+                    enabled: true
+                },
+                title: {
+                    text: 'Perbandingan Gender',
+                    align: 'left',
+                    margin: 10,
+                    offsetX: 0,
+                    offsetY: 0,
+                    floating: false,
+                    style: {
+                        fontSize: '14px',
+                        fontWeight: 'bold',
+                        fontFamily: undefined,
+                        color: '#263238'
+                    },
                 },
                 series: [male, female],
                 labels: ['Male', 'Female'],
@@ -515,10 +562,57 @@ function chartSalary() {
             var options = {
                 chart: {
                     type: 'donut',
-                    size: '50%'
+                    size: '50%',
+                    toolbar: {
+                        show: true,
+                        offsetX: 0,
+                        offsetY: 0,
+                        tools: {
+                            download: true,
+                            selection: true,
+                            zoom: true,
+                            zoomin: true,
+                            zoomout: true,
+                            pan: true,
+                            reset: true | '<img src="/static/icons/reset.png" width="20">',
+                            customIcons: []
+                        },
+                        export: {
+                            csv: {
+                                filename: undefined,
+                                columnDelimiter: ',',
+                                headerCategory: 'category',
+                                headerValue: 'value',
+                                dateFormatter(timestamp) {
+                                    return new Date(timestamp).toDateString()
+                                }
+                            },
+                            svg: {
+                                filename: undefined,
+                            },
+                            png: {
+                                filename: undefined,
+                            }
+                        },
+                        autoSelected: 'zoom'
+                    },
                 },
                 dataLabels: {
-                    enabled: false
+                    enabled: true
+                },
+                title: {
+                    text: 'Salary Rate',
+                    align: 'left',
+                    margin: 10,
+                    offsetX: 0,
+                    offsetY: 0,
+                    floating: false,
+                    style: {
+                        fontSize: '14px',
+                        fontWeight: 'bold',
+                        fontFamily: undefined,
+                        color: '#263238'
+                    },
                 },
                 series: [upper, mid],
                 labels: ['Gaji Di Atas 5jt', 'Gaji Di Bawah 5jt'],
@@ -552,12 +646,30 @@ function chartUniversity() {
             var options = {
                 chart: {
                     type: 'bar',
-                    size: '50%'
+                    size: '50%',
+
                 },
                 series: [{
                     name: 'employee',
                     data: [universityA, universityB, universityC]
                 }],
+                title: {
+                    text: 'Jumlah Individu per Universitas',
+                    align: 'left',
+                    margin: 10,
+                    offsetX: 0,
+                    offsetY: 0,
+                    floating: false,
+                    style: {
+                        fontSize: '14px',
+                        fontWeight: 'bold',
+                        fontFamily: undefined,
+                        color: '#263238'
+                    },
+                },
+                dataLabels: {
+                    enabled: true
+                },
                 xaxis: {
                     categories: ["Universitas Dian Nuswantoro", "Universitas Diponegoro", "Universitas Negeri Semarang"]
                 }
