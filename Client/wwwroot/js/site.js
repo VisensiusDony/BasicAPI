@@ -9,7 +9,7 @@ var data4 = document.getElementById("list3");
 ///var data4 = document.querySelectorAll(".list");
 ///var data5 = $(".list").html("halo ini dirubah js");
 
-donut();
+chartGender();
 chartUniversity();
 
 /*data = document.addEventListener("mouseover", function () {
@@ -342,7 +342,11 @@ function Show(data) {
     $("#lastNameedit").val(lastName);
     $("#emailedit").val(data.email);
     parseInt($("#salaryedit").val(data.salary));
-    $("#genderedit").val(gender).prop('checked', true);
+    if (gender == 1) {
+        $("#genderedit1").val(gender).prop('checked', true);
+    } else {
+        $("#genderedit").val(gender).prop('checked', true);
+    }
     $("#birthDateedit").val(data.birthDate);
     $("#phoneNumberedit").val(data.phone);
 }
@@ -457,11 +461,11 @@ window.addEventListener('load', () => {
         });
     }
 });
-
-function donut() {
+/*================================Chart Donut================================*/
+function chartGender() {
     male = 0;
     female = 0;
-    $.ajax({
+    jQuery.ajax({
         url: 'https://localhost:44392/GetRegisteredData',
         success: function (result) {
             $.each(result, function (key, val) {
@@ -475,7 +479,7 @@ function donut() {
             var options = {
                 chart: {
                     type: 'donut',
-                    height: 300
+                    size: '50%'
                 },
                 dataLabels: {
                     enabled: false
@@ -486,7 +490,7 @@ function donut() {
                     text: 'Loading...'
                 }
             }
-            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            var chart = new ApexCharts(document.querySelector("#chartGender"), options);
             chart.render();
         },
         async: false
@@ -512,7 +516,7 @@ function chartUniversity() {
             var options = {
                 chart: {
                     type: 'bar',
-                    height: 300
+                    size: '50%'
                 },
                 series: [{
                     name: 'employee',
@@ -522,7 +526,7 @@ function chartUniversity() {
                     categories: ["Universitas Dian Nuswantoro", "Universitas Diponegoro", "Universitas Negeri Semarang"]
                 }
             }
-            var barChart = new ApexCharts(document.querySelector("#barChart"), options);
+            var barChart = new ApexCharts(document.querySelector("#chartUniversity"), options);
             barChart.render();
         },
         async: false
