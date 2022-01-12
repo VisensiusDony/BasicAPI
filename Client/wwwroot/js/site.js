@@ -136,7 +136,7 @@ for (let i = 0; i < animals.length; i++) {
 
 console.log(animals);
 console.log(OnlyCat);
-
+/*================================Show Table Pokemon================================*/
 $.ajax({
     url: "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20"
 }).done((result) => {
@@ -155,7 +155,7 @@ $(".tablePoke").html(text);
 }).fail((error)=> {
     console.log(error);
 });
-
+/*================================Show Data Table================================*/
 var table = "";
 $(document).ready(function () {
    table = $('#tableEmployee').DataTable({
@@ -256,7 +256,7 @@ $(document).ready(function () {
 
     });
 });
-
+/*================================Delete Employee================================*/
 function Delete(key) {
     Swal.fire({
         title: 'Yakin ingin dihapus',
@@ -291,7 +291,7 @@ function Delete(key) {
 }
 
 
-
+/*================================Add Univ Option================================*/
 $.ajax({
     'url': "https://localhost:44392/api/University",
 }).done((result) => {
@@ -303,7 +303,7 @@ $.ajax({
 }).fail((error) => {
     console.log(error);
 });
-
+/*================================Add Education Option================================*/
 $('#univ').change(function () {
     let univ = $(this).val();
     $.ajax({
@@ -320,26 +320,38 @@ $('#univ').change(function () {
         console.log(error);
     });
 });
-
+/*================================Get Row DataTable================================*/
 $('#tableEmployee').on('click', '.fa-edit', function () {
     let rowData = $('#tableEmployee').DataTable().row($(this).closest('tr')).data();
     console.log(rowData);
     Show(rowData);
 });
-
+/*================================Show Row Data in Modal================================*/
 function Show(data) {
+    let gender;
+    if (data.gender == "Male") {
+        gender = 0;
+    }
+    else {
+        gender = 1;
+    }
+    console.log(gender);
+    const name = data.fullName;
+    const [firstName, lastName] = name.split(' ');
     $("#nikedit").val(data.nik);
-    $("#firstNameedit").val(data.fullName);
-    $("#lastNameedit").val(data.fullName);
+    $("#firstNameedit").val(firstName);
+    $("#lastNameedit").val(lastName);
     $("#emailedit").val(data.email);
     parseInt($("#salaryedit").val(data.salary));
-    parseInt($("#genderedit").val(data.gender));
+    parseInt($("#genderedit").val(gender));
     $("#birthDateedit").val(data.birthDate);
     $("#phoneNumberedit").val(data.phone);
 }
+/*================================Edit Employee================================*/
 function Edit() {
+    var nik = $("#nikedit").val();
     var obj = new Object();
-    obj.nik = $("#nikedit").val();
+    //obj.nik = $("#nikedit").val();
     obj.FirstName = $("#firstNameedit").val();
     obj.LastName = $("#lastNameedit").val();
     obj.Email = $("#emailedit").val();
@@ -348,7 +360,7 @@ function Edit() {
     obj.BirthDate = $("#birthDateedit").val();
     obj.Phone = $("#phoneNumberedit").val();
     $.ajax({
-        url: "https://localhost:44392/api/Employees",
+        url: "https://localhost:44392/api/Employees/"+nik,
         type: "PUT",
         dataType: "json",
         contentType: "application/json",
@@ -372,7 +384,7 @@ function Edit() {
         });
     });
 }
-
+/*================================Register================================*/
 function Register() {
     var obj = new Object(); 
     //ini ngambil value dari tiap inputan di form nya
@@ -413,7 +425,7 @@ function Register() {
 });
 }
 
-
+/*================================Validation Register================================*/
 window.addEventListener('load', () => {
     var forms = document.getElementsByClassName('needs-validation');
     for (let form of forms) {
@@ -430,6 +442,7 @@ window.addEventListener('load', () => {
     }
 });
 
+/*================================Validation Edit================================*/
 window.addEventListener('load', () => {
     var forms = document.getElementsByClassName('needs-valid');
     for (let form of forms) {
@@ -446,6 +459,7 @@ window.addEventListener('load', () => {
     }
 });
 
+/*================================Format Salary================================*/
 function formatRupiah(angka, prefix) {
     var number_string = angka.replace(/[^,\d]/g, '').toString(),
         split = number_string.split(','),
@@ -507,6 +521,7 @@ function formatRupiah(angka, prefix) {
         });
     }*/
 
+/*================================Show Pokemon Detail================================*/
    function getData(link) {
         $.ajax({
             url: link

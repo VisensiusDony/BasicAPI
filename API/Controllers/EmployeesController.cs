@@ -110,12 +110,11 @@ namespace API.Controllers
             }
         }*/
 
-        [HttpPut]
-        [Route("/UpdateNIK")]
-        public ActionResult UpdateNIK(Employee employee)
+        [HttpPut("{NIK}")]
+        public ActionResult UpdateNIK(string NIK,Employee employee)
         {
             var data = employeeRepository.Get().Count();
-            var nik = employeeRepository.Update(employee);
+            var nik = employeeRepository.UpdateNIK(NIK,employee);
             if (data != 0)
             {
                 return nik switch
