@@ -35,8 +35,8 @@ namespace API.Model
         [DataType(DataType.DateTime)]
         public DateTime BirthDate { get; set; }
 
-        [Range(100000,100000000,ErrorMessage ="Your salary out of range")]
-        [Required(ErrorMessage = "{0} is a mandatory field")]
+       /* [Range(100000,100000000,ErrorMessage ="Your salary out of range")]
+        [Required(ErrorMessage = "{0} is a mandatory field")]*/
         public int Salary { get; set; }
 
         [DataType(DataType.EmailAddress)]

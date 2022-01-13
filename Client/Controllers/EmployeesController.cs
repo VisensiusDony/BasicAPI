@@ -30,10 +30,11 @@ namespace Client.Controllers
             var result = await repository.GetRegisteredData();
             return Json(result);
         }
+
         
-        public async Task<JsonResult> GetRegisteredView(string nik)
+        public async Task<JsonResult> GetRegisterData(string NIK)
         {
-            var result = await repository.GetRegisteredView(nik);
+            var result = await repository.GetRegisterData(NIK);
             return Json(result);
         }
     }

@@ -202,7 +202,7 @@ $(document).ready(function () {
             }
         ],
         'ajax': {
-            'url': "https://localhost:44392/GetRegisteredData",
+            'url': "https://localhost:44392/api/Employees/GetRegisteredData",
             'dataType': 'json',
             'dataSrc': ''
         },
@@ -297,7 +297,7 @@ $.ajax({
     'url': "https://localhost:44392/api/University",
 }).done((result) => {
     text = "<option selected disabled value=\"\">Choose...</option>";
-    $.each(result.success, function (key, val) {
+    $.each(result, function (key, val) {
         text += `<option value="${val.universityId}">${val.universityName}</option>`;
     });
     $("#univ").html(text);
@@ -311,7 +311,7 @@ $('#univ').change(function () {
         'url': 'https://localhost:44392/api/Education',
     }).done((result) => {
         text = "<option selected disabled value=\"\">Choose...</option>";
-        $.each(result.success, function (key, val) {
+        $.each(result, function (key, val) {
             if (univ == val.universityId) {
                 text += `<option value="${val.degree}">${val.degree}</option>`;
             }
@@ -467,7 +467,7 @@ function chartGender() {
     male = 0;
     female = 0;
     jQuery.ajax({
-        url: 'https://localhost:44392/GetRegisteredData',
+        url: 'https://localhost:44392/api/Employees/GetRegisteredData',
         success: function (result) {
             $.each(result, function (key, val) {
                 if (val.gender == "Female") {
@@ -549,7 +549,7 @@ function chartSalary() {
     upper = 0;
     mid = 0;
     jQuery.ajax({
-        url: 'https://localhost:44392/GetRegisteredData',
+        url: 'https://localhost:44392/api/Employees/GetRegisteredData',
         success: function (result) {
             $.each(result, function (key, val) {
                 if (val.salary>5000000) {
@@ -632,7 +632,7 @@ function chartUniversity() {
     let universityB = null;
     let universityC = null;
     jQuery.ajax({
-        url: 'https://localhost:44392/GetRegisteredData',
+        url: 'https://localhost:44392/api/Employees/GetRegisteredData',
         success: function (result) {
             $.each(result, function (key, val) {
                 if (val.universityName == "Universitas Dian Nuswantoro") {

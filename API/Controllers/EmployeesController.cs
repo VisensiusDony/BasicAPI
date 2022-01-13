@@ -251,11 +251,11 @@ else
             }
         }
 
-        [HttpGet("GetRegisteredData/{NIK}")]
-        public ActionResult GetRegisteredData(string NIK)
+        [HttpGet("GetRegisterData/{NIK}")]
+        public ActionResult GetRegisterData(string NIK)
         {
 
-            var getData = employeeRepository.GetRegisteredData(NIK);
+            var getData = employeeRepository.GetRegisterData(NIK);
             if (getData != null)
             {
                 return Ok(getData);

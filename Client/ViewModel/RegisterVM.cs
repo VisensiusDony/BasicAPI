@@ -18,7 +18,7 @@ namespace Client.ViewModel
         public int Salary { get; set; }
 
 
-        public string PhoneNumber { get; set; }
+        public string Phone { get; set; }
         public DateTime BirthDate { get; set; }
         public Gender Gender { get; set; }
        
@@ -31,7 +31,7 @@ namespace Client.ViewModel
     }
     public enum Gender
     {
-        Male,
-        Female
+        Male=0,
+        Female=1
     }
 }

@@ -42,7 +42,7 @@ namespace API.Controllers
         public ActionResult Get(Key key)
         {
             var data = repository.Get(key);
-            return Ok(new { status = HttpStatusCode.OK, data, message = "Data found" });
+            return Ok(data);
         }
 
         [HttpPost]

@@ -42,11 +42,11 @@ namespace Client.Repositories.Data
             }
             return entities;
         }
-        public async Task<List<RegisterVM>> GetRegisteredView(string nik)
+        public async Task<List<RegisterVM>> GetRegisterData(string NIK)
         {
             List<RegisterVM> entities = new List<RegisterVM>();
 
-            using (var response = await httpClient.GetAsync(request + "GetRegisteredData/" + nik))
+            using (var response = await httpClient.GetAsync(request + "GetRegisterData/" + NIK))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 entities = JsonConvert.DeserializeObject<List<RegisterVM>>(apiResponse);

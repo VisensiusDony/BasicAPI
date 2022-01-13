@@ -201,16 +201,17 @@ namespace API.Repository.Data
                              Gender = employee.Gender.ToString(),
                              education.Degree,
                              education.GPA,
-                             university.UniversityName,
+                             university.UniversityName
                              //role.RoleName
                          });
             return query.ToList();
         }
 
-        public IEnumerable GetRegisteredData(string NIK)
+        public IEnumerable GetRegisterData(string NIK)
         {
             var getNIK = myContext.Employees.Find(NIK);
-            if (getNIK != null) {
+            var getEmail = myContext.Employees.SingleOrDefault(e => e.Email == NIK);
+            if (getEmail != null) {
             var query = (from employee in myContext.Set<Employee>()
                          join account in myContext.Set<Account>()
                             on employee.NIK equals account.NIK
@@ -220,11 +221,11 @@ namespace API.Repository.Data
                             on profiling.EducationId equals education.EducationId
                          join university in myContext.Set<University>()
                             on education.UniversityId equals university.UniversityId
-                         where employee.NIK == NIK
+                         where employee.NIK == getEmail.NIK
                          select new
                          {
                              employee.NIK,
-                             FullName = String.Concat(employee.FirstName + " ", employee.LastName),
+                             FullName = employee.FirstName + " " + employee.LastName,
                              employee.Email,
                              employee.Salary,
                              employee.Phone,
@@ -235,7 +236,33 @@ namespace API.Repository.Data
                              university.UniversityName
                          });
             return query.ToList();
-        }
+        }else if (getNIK != null)
+            {
+                var query = (from employee in myContext.Set<Employee>()
+                             join account in myContext.Set<Account>()
+                                on employee.NIK equals account.NIK
+                             join profiling in myContext.Set<Profilling>()
+                                on account.NIK equals profiling.NIK
+                             join education in myContext.Set<Education>()
+                                on profiling.EducationId equals education.EducationId
+                             join university in myContext.Set<University>()
+                                on education.UniversityId equals university.UniversityId
+                             where employee.NIK == NIK
+                             select new
+                             {
+                                 employee.NIK,
+                                 FullName = employee.FirstName + " " + employee.LastName,
+                                 employee.Email,
+                                 employee.Salary,
+                                 employee.Phone,
+                                 employee.BirthDate,
+                                 Gender = employee.Gender.ToString(),
+                                 education.Degree,
+                                 education.GPA,
+                                 university.UniversityName
+                             });
+                return query.ToList();
+            }
             return null;
         }
 
