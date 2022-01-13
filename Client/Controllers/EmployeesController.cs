@@ -32,7 +32,12 @@ namespace Client.Controllers
             var result = await repository.GetRegisteredData();
             return Json(result);
         }
-
+        [HttpGet]
+        public async Task<JsonResult> GetRegisterData(string NIK)
+        {
+            var result = await repository.GetRegisterData(NIK);
+            return Json(result);
+        }
         [HttpPost]
         public JsonResult Register(RegistrationVM registrationVM)
         {
@@ -40,12 +45,12 @@ namespace Client.Controllers
             return Json(result);
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public JsonResult UpdateNIK(RegistrationVM registrationVM)
         {
             var result = repository.UpdateNIK(registrationVM);
             return Json(result);
-        }
+        }*/
 
         /*[HttpPost]
         public JsonResult Insert(Employee employee)
@@ -53,11 +58,11 @@ namespace Client.Controllers
             var result = repository.Post(employee);
             return Json(employee);
         }*/
-        /* [HttpPut]
-         public JsonResult UpdateNIK(string nik, Employee employee)
-         {
-             var result = repository.UpdateNIK(nik, employee);
-             return Json(result);
-         }*/
+        [HttpPut]
+        public JsonResult UpdateNIK(string nik, Employee employee)
+        {
+            var result = repository.UpdateNIK(nik, employee);
+            return Json(result);
+        }
     }
 }

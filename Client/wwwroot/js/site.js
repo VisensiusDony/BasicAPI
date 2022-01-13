@@ -220,7 +220,14 @@ $(document).ready(function () {
                 'data': 'fullName'
             },
             {
-                'data': 'gender'
+                'data': 'gender',
+                'render': (data, type, row) => {
+                    if (row['gender'] == 0) {
+                        return "Male";
+                    } else {
+                        return "Female";
+                    }
+                }
             }, {
                 'data': 'email'
                 
@@ -329,13 +336,14 @@ $('#tableEmployee').on('click', '.fa-edit', function () {
 });
 /*================================Show Row Data in Modal================================*/
 function Show(data) {
-    let gender;
+   /* let gender;
     if (data.gender == "Male") {
         gender = 0;
     }
     else {
         gender = 1;
-    }
+    }*/
+    console.log(data);
     const name = data.fullName;
     const [firstName, lastName] = name.split(' ');
     $("#nikedit").val(data.nik);
@@ -343,7 +351,7 @@ function Show(data) {
     $("#lastNameedit").val(lastName);
     $("#emailedit").val(data.email);
     parseInt($("#salaryedit").val(data.salary));
-    if (gender == 1) {
+    if (data.gender == 1) {
         $("#genderedit1").val(gender).prop('checked', true);
     } else {
         $("#genderedit").val(gender).prop('checked', true);
@@ -354,7 +362,7 @@ function Show(data) {
 /*================================Edit Employee================================*/
 
 function Edit() {
-    /*var nik = $("#nikedit").val();*/
+    var nik = $("#nikedit").val();
     var obj = new Object();
     obj.FirstName = $("#firstNameedit").val();
     obj.LastName = $("#lastNameedit").val();
@@ -367,14 +375,14 @@ function Edit() {
     obj.Gender = parseInt($("input[name=genderedit]:checked").val());
     
     $.ajax({
-        url: "Employees/Put",
+        url: "Employees/UpdateNIK/"+nik,
         type: "PUT",
         data: obj,
     }).done((result) => {
         console.log(obj);
         Swal.fire({
             icon: 'success',
-            title: result,
+            title: result.message,
         });
         table.ajax.reload(null, false);
         $('body').removeClass('modal-open');
@@ -418,7 +426,7 @@ function Register() {
     console.log(obj);
     Swal.fire({
         icon: 'success',
-        title: result,
+        title: result.message,
     });
     table.ajax.reload(null, false);
     $('body').removeClass('modal-open');

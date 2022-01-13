@@ -69,19 +69,19 @@ namespace Client.Repositories.Data
             return result.StatusCode;
         }
 
-        public HttpStatusCode UpdateNIK(RegistrationVM registrationVM)
-        {
-            StringContent content = new StringContent(JsonConvert.SerializeObject(registrationVM), Encoding.UTF8, "application/json");
-            var result = httpClient.PostAsync(address.link + request + "UpdateNIK", content).Result;
-            return result.StatusCode;
-        }
-
-
-        /* public HttpStatusCode UpdateNIK(string nik, Employee employee)
+        /* public HttpStatusCode UpdateNIK(RegistrationVM registrationVM)
          {
-             StringContent content = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
-             var result = httpClient.PutAsync(request + "UpdateNIK/"+ nik, content).Result;
+             StringContent content = new StringContent(JsonConvert.SerializeObject(registrationVM), Encoding.UTF8, "application/json");
+             var result = httpClient.PostAsync(address.link + request + "UpdateNIK", content).Result;
              return result.StatusCode;
          }*/
+
+
+        public HttpStatusCode UpdateNIK(string nik, Employee employee)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
+            var result = httpClient.PutAsync(request + "UpdateNIK/" + nik, content).Result;
+            return result.StatusCode;
+        }
     }
 }
