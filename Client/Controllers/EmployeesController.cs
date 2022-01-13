@@ -40,6 +40,13 @@ namespace Client.Controllers
             return Json(result);
         }
 
+        [HttpPost]
+        public JsonResult UpdateNIK(RegistrationVM registrationVM)
+        {
+            var result = repository.UpdateNIK(registrationVM);
+            return Json(result);
+        }
+
         /*[HttpPost]
         public JsonResult Insert(Employee employee)
         {

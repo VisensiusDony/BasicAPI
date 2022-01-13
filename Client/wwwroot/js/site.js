@@ -328,9 +328,7 @@ $('#tableEmployee').on('click', '.fa-edit', function () {
     Show(rowData);
 });
 /*================================Show Row Data in Modal================================*/
-
 function Show(data) {
-    
     let gender;
     if (data.gender == "Male") {
         gender = 0;
@@ -356,11 +354,11 @@ function Show(data) {
 /*================================Edit Employee================================*/
 
 function Edit() {
-    var nik = $("#nikedit").val();
+    /*var nik = $("#nikedit").val();*/
     var obj = new Object();
-    
     obj.FirstName = $("#firstNameedit").val();
     obj.LastName = $("#lastNameedit").val();
+    /*obj.nik = $$("#nikedit").val();*/
     obj.NIK = $("#nikedit").val();
     obj.Phone = $("#phoneNumberedit").val();
     obj.BirthDate = $("#birthDateedit").val();
