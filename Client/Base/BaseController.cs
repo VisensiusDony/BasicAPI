@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Client.Base
@@ -36,11 +37,11 @@ namespace Client.Base
         public JsonResult Post(TEntity entity)
         {
             var result = repository.Post(entity);
-            return Json(result);
+            return Json(entity);
         }
 
         [HttpPut]
-        public JsonResult Put(TId id, TEntity entity)
+        public JsonResult Put(TId id,TEntity entity)
         {
             var result = repository.Put(id, entity);
             return Json(result);

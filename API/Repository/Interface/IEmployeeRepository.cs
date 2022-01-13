@@ -13,7 +13,7 @@ namespace API.Repository.Interface
         //IEnumerable --> karena read data cocoknya pakai enumerable (read saja)
         Employee Get(String NIK);
         int Insert(Employee employee);
-        int Update(string NIK,Employee employee);
+        int Update(Employee employee);
         int Delete(string NIK);
     }
 }

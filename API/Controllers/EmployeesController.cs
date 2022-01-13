@@ -110,16 +110,16 @@ namespace API.Controllers
             }
         }*/
 
-        [HttpPut("{NIK}")]
-        public ActionResult UpdateNIK(string NIK,Employee employee)
+        [HttpPut("UpdateNIK/{NIK}")]
+        public ActionResult UpdateNIK(string nik,Employee employee)
         {
             var data = employeeRepository.Get().Count();
-            var nik = employeeRepository.UpdateNIK(NIK,employee);
+            var NIK = employeeRepository.UpdateNIK(nik,employee);
             if (data != 0)
             {
-                return nik switch
+                return NIK switch
                 {
-                    0 => Ok(new { status = HttpStatusCode.OK, message = "Update Success" }),
+                    0 => Ok(NIK),
                     1 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Update Failed, Email already exists!" }),
                     2 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Update Failed, Phone already exists!" }),
                     3 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "NIK not found " }),
@@ -168,14 +168,14 @@ else
             }
         }
 
-        [HttpPost]
-        [Route("/Register")]
+        [HttpPost("Register")]
+        /*[Route("Register")]*/
         public ActionResult Register(RegisterVM registerVM)
         {
             var register = employeeRepository.Register(registerVM);
             return register switch
             {
-                1 => Ok(new { status = HttpStatusCode.OK, register, message = "Register Success" }),
+                1 => Ok(register),
                 2 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "NIK already exists" }),
                 3 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Email already exists" }),
                 4 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Phone already exists" }),

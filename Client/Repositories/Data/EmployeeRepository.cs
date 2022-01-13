@@ -7,8 +7,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Client.Repositories.Data
@@ -42,6 +44,7 @@ namespace Client.Repositories.Data
             }
             return entities;
         }
+
         public async Task<List<RegisterVM>> GetRegisterData(string NIK)
         {
             List<RegisterVM> entities = new List<RegisterVM>();
@@ -53,5 +56,25 @@ namespace Client.Repositories.Data
             }
             return entities;
         }
+       /* public HttpStatusCode Insert(Employee employee)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync(address.link + request, content).Result;
+            return result.StatusCode;
+        }*/
+        public HttpStatusCode Register(RegistrationVM registrationVM)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(registrationVM), Encoding.UTF8, "application/json");
+            var result = httpClient.PostAsync(address.link + request + "Register", content).Result;
+            return result.StatusCode;
+        }
+
+
+        /* public HttpStatusCode UpdateNIK(string nik, Employee employee)
+         {
+             StringContent content = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
+             var result = httpClient.PutAsync(request + "UpdateNIK/"+ nik, content).Result;
+             return result.StatusCode;
+         }*/
     }
 }

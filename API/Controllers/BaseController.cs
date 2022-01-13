@@ -52,7 +52,7 @@ namespace API.Controllers
             var insert = repository.Insert(entity);
             return insert switch
             {
-                0 => Ok(new { status = HttpStatusCode.OK, message = "Insert Data Successfull" }),
+                0 => Ok(insert),
                 1 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Insert Failed, Email already exists!" }),
                 2 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Insert Failed, Phone already exists!" }),
                 _ => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Insert Failed, NIK already exists!" }),
@@ -85,8 +85,8 @@ namespace API.Controllers
         [HttpPut]
         public ActionResult Update(Entity entity)
         {
-            repository.Update(entity);
-            return Ok(new { status = HttpStatusCode.OK, message = "Update Success" });
+            var edit = repository.Update(entity);
+            return Ok(edit);
         }
     }
 }

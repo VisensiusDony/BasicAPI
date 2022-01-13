@@ -202,7 +202,7 @@ $(document).ready(function () {
             }
         ],
         'ajax': {
-            'url': "https://localhost:44392/api/Employees/GetRegisteredData",
+            'url': "Employees/GetRegisteredData",
             'dataType': 'json',
             'dataSrc': ''
         },
@@ -271,7 +271,7 @@ function Delete(key) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: "https://localhost:44392/api/Employees/"+key,
+                url: "Employees/Delete/"+key,
                 type: "delete",
                 crossDomain: true,
             }).done((result) => {
@@ -328,7 +328,9 @@ $('#tableEmployee').on('click', '.fa-edit', function () {
     Show(rowData);
 });
 /*================================Show Row Data in Modal================================*/
+
 function Show(data) {
+    
     let gender;
     if (data.gender == "Male") {
         gender = 0;
@@ -348,35 +350,39 @@ function Show(data) {
     } else {
         $("#genderedit").val(gender).prop('checked', true);
     }
-    $("#birthDateedit").val(data.birthDate);
+    $("#birthDateedit").val(new Date(data.birthDate+"Z").toISOString().substring(0,10));
     $("#phoneNumberedit").val(data.phone);
 }
 /*================================Edit Employee================================*/
+
 function Edit() {
     var nik = $("#nikedit").val();
     var obj = new Object();
-    //obj.nik = $("#nikedit").val();
+    
     obj.FirstName = $("#firstNameedit").val();
     obj.LastName = $("#lastNameedit").val();
-    obj.Email = $("#emailedit").val();
-    obj.Salary = parseInt($("#salaryedit").val());
-    obj.Gender = parseInt($("input[name=genderedit]:checked").val());
-    obj.BirthDate = $("#birthDateedit").val();
+    obj.NIK = $("#nikedit").val();
     obj.Phone = $("#phoneNumberedit").val();
+    obj.BirthDate = $("#birthDateedit").val();
+    obj.Salary = parseInt($("#salaryedit").val());
+    obj.Email = $("#emailedit").val();
+    obj.Gender = parseInt($("input[name=genderedit]:checked").val());
+    
     $.ajax({
-        url: "https://localhost:44392/api/Employees/"+nik,
+        url: "Employees/Put",
         type: "PUT",
-        dataType: "json",
-        contentType: "application/json",
-        data: JSON.stringify(obj),
+        data: obj,
     }).done((result) => {
         console.log(obj);
         Swal.fire({
             icon: 'success',
-            title: result.message,
+            title: result,
         });
         table.ajax.reload(null, false);
         $('body').removeClass('modal-open');
+        chartGender();
+        chartUniversity();
+        chartSalary();
         $('#editModal').modal('hide');
         $('.modal-backdrop').remove();
     }).fail((error) => {
@@ -392,7 +398,7 @@ function Edit() {
 function Register() {
     var obj = new Object(); 
     //ini ngambil value dari tiap inputan di form nya
-    /*obj.NIK = $("#nik").val();*/
+    /*obj.NIK = "10111";*/
     obj.FirstName = $("#firstName").val();
     obj.LastName = $("#lastName").val();
     obj.Email = $("#email").val();
@@ -403,24 +409,28 @@ function Register() {
     obj.Password = $("#password").val();
     obj.GPA = parseFloat($("#gpa").val());
     obj.Degree = $("#degree").val();
-    obj.UniversityId =parseInt($("#univ").val());
+    obj.UniversityId = parseInt($("#univ").val());
+   /* obj.RoleId = 3;*/
     $.ajax({
-        url: "https://localhost:44392/Register",
+        url: "Employees/Register",
         type: "POST",
-        dataType: "json",
-        contentType:"application/json",
-        data: JSON.stringify(obj),
-
+        data: obj
+        /*data: JSON.stringify(obj)*/
 }).done((result) => {
+    console.log(obj);
     Swal.fire({
         icon: 'success',
-        title: result.message,
+        title: result,
     });
     table.ajax.reload(null, false);
     $('body').removeClass('modal-open');
+    chartGender();
+    chartUniversity();
+    chartSalary();
     $('#regisModal').modal('hide');
     $('.modal-backdrop').remove();
 }).fail((error) => {
+    /*console.log(obj);*/
     Swal.fire({
         icon: 'error',
         title: 'Registrasi Gagal',
@@ -447,21 +457,21 @@ window.addEventListener('load', () => {
 });
 
 /*================================Validation Edit================================*/
-window.addEventListener('load', () => {
-    var forms = document.getElementsByClassName('needs-valid');
-    for (let form of forms) {
-        form.addEventListener('submit', (evt) => {
-            if (!form.checkValidity()) {
-                evt.preventDefault();
-                evt.stopPropagation();
-            } else {
-                evt.preventDefault();
-                Edit();
-            }
-            form.classList.add('was-validated');
-        });
-    }
-});
+    window.addEventListener('load', () => {
+        var forms = document.getElementsByClassName('needs-valid');
+        for (let form of forms) {
+            form.addEventListener('submit', (evt) => {
+                if (!form.checkValidity()) {
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                } else {
+                    evt.preventDefault();
+                    Edit();
+                }
+                form.classList.add('was-validated');
+            });
+        }
+    });
 /*================================Chart Donut================================*/
 function chartGender() {
     male = 0;

@@ -62,7 +62,7 @@ namespace Client.Repository
             return entity;
         }
 
-        public HttpStatusCode Put(TId id, TEntity entity)
+        public HttpStatusCode Put(TId id,TEntity entity)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
             var result = httpClient.PutAsync(request + id, content).Result;
