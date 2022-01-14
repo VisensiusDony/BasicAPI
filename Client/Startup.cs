@@ -30,9 +30,10 @@ namespace Client
             services.AddControllersWithViews();
             
             services.AddSweetAlert2();
-
+            services.AddMvc().AddNewtonsoftJson();
             
             services.AddScoped<EmployeeRepository>();
+            services.AddScoped<AccountRepository>();
             services.AddScoped<Address>();
         }
 

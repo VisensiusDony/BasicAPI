@@ -119,7 +119,7 @@ namespace API.Controllers
             {
                 return NIK switch
                 {
-                    0 => Ok(NIK),
+                    0 => Ok(new { status = HttpStatusCode.OK,NIK, message = "Update Success" }),
                     1 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Update Failed, Email already exists!" }),
                     2 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Update Failed, Phone already exists!" }),
                     3 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "NIK not found " }),
@@ -175,7 +175,7 @@ else
             var register = employeeRepository.Register(registerVM);
             return register switch
             {
-                1 => Ok(register),
+                1 => Ok(new { status = HttpStatusCode.OK,register, message = "Register Success" }),
                 2 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "NIK already exists" }),
                 3 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Email already exists" }),
                 4 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Phone already exists" }),

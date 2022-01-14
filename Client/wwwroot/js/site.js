@@ -157,6 +157,33 @@ $(".tablePoke").html(text);
 }).fail((error)=> {
     console.log(error);
 });
+/*=====================================Login==========================================*/
+function loginUser() {
+    var obj = new Object();
+    obj.Email = $("#InputEmail").val();
+    obj.Password = $("#InputPassword").val();
+    $.ajax({
+        url: 'Account/Login',
+        type: 'post',
+        data: obj,
+    }).done(result => {
+        console.log(result)
+        if (result.message == "Login Success") {
+            window.location.href = "https://localhost:44375/Employee"
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: result.message,
+            });
+        }
+    }).fail(error => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Registrasi Gagal',
+            text: error.message,
+        });
+    });
+}
 /*================================Show Data Table================================*/
 var table = "";
 $(document).ready(function () {
@@ -188,8 +215,6 @@ $(document).ready(function () {
             {
                 extend: 'pdfHtml5',
                 className: 'btn-danger btn-outline',
-                orientation: 'landscape',
-                pageSize: 'LEGAL',
                 text: '<i class="fa fa-file-pdf-o" style="color:white"> <b>PDF</b></i>',
                 exportOptions: {
                     columns: [1, 2, 3, 4, 5, 6, 7, 8]
@@ -360,7 +385,6 @@ function Show(data) {
     $("#phoneNumberedit").val(data.phone);
 }
 /*================================Edit Employee================================*/
-
 function Edit() {
     var nik = $("#nikedit").val();
     var obj = new Object();
@@ -372,6 +396,11 @@ function Edit() {
     obj.BirthDate = $("#birthDateedit").val();
     obj.Salary = parseInt($("#salaryedit").val());
     obj.Email = $("#emailedit").val();
+   /* if ($("input[name=genderedit]:checked").val()=="Wanita") {
+        obj.Gender = 1;
+    } else {
+        obj.Gender = 0;
+    }*/
     obj.Gender = parseInt($("input[name=genderedit]:checked").val());
     
     $.ajax({
@@ -380,23 +409,32 @@ function Edit() {
         data: obj,
     }).done((result) => {
         console.log(obj);
-        Swal.fire({
-            icon: 'success',
-            title: result.message,
-        });
-        table.ajax.reload(null, false);
-        $('body').removeClass('modal-open');
-        chartGender();
-        chartUniversity();
-        chartSalary();
-        $('#editModal').modal('hide');
-        $('.modal-backdrop').remove();
+        if (result.message == "Update Success") {
+            Swal.fire({
+                icon: 'success',
+                /*title:'Edit Sukses',*/
+                title: result.message
+            });
+            table.ajax.reload(null, false);
+            chartGender();
+            chartUniversity();
+            chartSalary();
+            $('body').removeClass('modal-open');
+            $('#editModal').modal('hide');
+            $('.modal-backdrop').remove();
+       } else {
+            Swal.fire({
+                icon: 'error',
+                /*title: 'Edit Gagal',*/
+                title: result.message,
+            });
+        }
     }).fail((error) => {
         console.log(obj);
         Swal.fire({
             icon: 'error',
             title: 'Edit Gagal',
-            text: error.responseJSON.message,
+            text: error.message,
         });
     });
 }
@@ -410,6 +448,11 @@ function Register() {
     obj.Email = $("#email").val();
     obj.Salary = parseInt($("#salary").val());
     obj.Gender = parseInt($("input[name=gender]:checked").val());
+    /*if ($("input[name=gender]:checked").val() == "Wanita") {
+        obj.Gender = 1;
+    } else {
+        obj.Gender = 0;
+    }*/
     obj.BirthDate = $("#birthDate").val();
     obj.PhoneNumber = $("#phoneNumber").val();
     obj.Password = $("#password").val();
@@ -422,25 +465,34 @@ function Register() {
         type: "POST",
         data: obj
         /*data: JSON.stringify(obj)*/
-}).done((result) => {
-    console.log(obj);
-    Swal.fire({
-        icon: 'success',
-        title: result.message,
-    });
-    table.ajax.reload(null, false);
-    $('body').removeClass('modal-open');
-    chartGender();
-    chartUniversity();
-    chartSalary();
-    $('#regisModal').modal('hide');
-    $('.modal-backdrop').remove();
+    }).done((result) => {
+        if (result.message == "Register Success") {
+            console.log(obj);
+            Swal.fire({
+                icon: 'success',
+                /*title: 'Registrasi sukses',*/
+                title: result.message,
+            });
+            table.ajax.reload(null, false);
+            chartGender();
+            chartUniversity();
+            chartSalary();
+            $('body').removeClass('modal-open');
+            $('#regisModal').modal('hide');
+            $('.modal-backdrop').remove();
+        } else {
+            Swal.fire({
+                icon: 'error',
+                /*title: 'Registrasi sukses',*/
+                title: result.message,
+            });
+        }
 }).fail((error) => {
     /*console.log(obj);*/
     Swal.fire({
         icon: 'error',
         title: 'Registrasi Gagal',
-        text: error.responseJSON.message,
+        text: error.message,
     });
 });
 }
@@ -478,15 +530,31 @@ window.addEventListener('load', () => {
             });
         }
     });
+/*================================Validation Login================================*/
+window.addEventListener('load', () => {
+    var forms = document.getElementsByClassName('user');
+    for (let form of forms) {
+        form.addEventListener('submit', (evt) => {
+            if (!form.checkValidity()) {
+                evt.preventDefault();
+                evt.stopPropagation();
+            } else {
+                evt.preventDefault();
+                loginUser();
+            }
+            form.classList.add('was-validated');
+        });
+    }
+});
 /*================================Chart Donut================================*/
 function chartGender() {
     male = 0;
     female = 0;
     jQuery.ajax({
-        url: 'https://localhost:44392/api/Employees/GetRegisteredData',
+        url: 'Employees/GetRegisteredData',
         success: function (result) {
             $.each(result, function (key, val) {
-                if (val.gender == "Female") {
+                if (val.gender == 1) {
                     female++;
                 }
                 else {
@@ -565,7 +633,7 @@ function chartSalary() {
     upper = 0;
     mid = 0;
     jQuery.ajax({
-        url: 'https://localhost:44392/api/Employees/GetRegisteredData',
+        url: 'Employees/GetRegisteredData',
         success: function (result) {
             $.each(result, function (key, val) {
                 if (val.salary>5000000) {
@@ -648,7 +716,7 @@ function chartUniversity() {
     let universityB = null;
     let universityC = null;
     jQuery.ajax({
-        url: 'https://localhost:44392/api/Employees/GetRegisteredData',
+        url: 'Employees/GetRegisteredData',
         success: function (result) {
             $.each(result, function (key, val) {
                 if (val.universityName == "Universitas Dian Nuswantoro") {

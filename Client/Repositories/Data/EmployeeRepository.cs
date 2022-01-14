@@ -62,11 +62,17 @@ namespace Client.Repositories.Data
             var result = httpClient.PostAsync(address.link + request, content).Result;
             return result.StatusCode;
         }*/
-        public HttpStatusCode Register(RegistrationVM registrationVM)
+        public Object Register(RegistrationVM registrationVM)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(registrationVM), Encoding.UTF8, "application/json");
-            var result = httpClient.PostAsync(address.link + request + "Register", content).Result;
-            return result.StatusCode;
+            Object entities = new Object();
+            using (var response = httpClient.PostAsync(request + "Register", content).Result)
+            {
+                string apiResponse = response.Content.ReadAsStringAsync().Result;
+                entities = JsonConvert.DeserializeObject<Object>(apiResponse);
+            }
+
+            return entities;
         }
 
         /* public HttpStatusCode UpdateNIK(RegistrationVM registrationVM)
@@ -77,11 +83,17 @@ namespace Client.Repositories.Data
          }*/
 
 
-        public HttpStatusCode UpdateNIK(string nik, Employee employee)
+        public Object UpdateNIK(string nik, Employee employee)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(employee), Encoding.UTF8, "application/json");
-            var result = httpClient.PutAsync(request + "UpdateNIK/" + nik, content).Result;
-            return result.StatusCode;
+            Object entities = new Object();
+            using (var response = httpClient.PutAsync(request + "UpdateNIK/" + nik, content).Result)
+            {
+                string apiResponse = response.Content.ReadAsStringAsync().Result;
+                entities = JsonConvert.DeserializeObject<Object>(apiResponse);
+            }
+
+            return entities;
         }
     }
 }
