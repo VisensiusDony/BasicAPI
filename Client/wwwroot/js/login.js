@@ -158,12 +158,12 @@ $(".tablePoke").html(text);
     console.log(error);
 });
 /*=====================================Login==========================================*/
-/*function loginUser() {
+function loginUser() {
     var obj = new Object();
     obj.Email = $("#InputEmail").val();
     obj.Password = $("#InputPassword").val();
     $.ajax({
-        url: 'Account/Auth',
+        url: 'Account/Login',
         type: 'post',
         data: obj,
     }).done(result => {
@@ -177,14 +177,13 @@ $(".tablePoke").html(text);
             });
         }
     }).fail(error => {
-        console.log(error),
         Swal.fire({
             icon: 'error',
-            title: 'Login Gagal, Data Tidak Sesuai',
+            title: 'Login Gagal, Data Tidak Sesuai!',
             text: error.message,
         });
     });
-}*/
+}
 /*================================Show Data Table================================*/
 var table = "";
 $(document).ready(function () {
@@ -532,7 +531,7 @@ window.addEventListener('load', () => {
         }
     });
 /*================================Validation Login================================*/
-/*window.addEventListener('load', () => {
+window.addEventListener('load', () => {
     var forms = document.getElementsByClassName('user');
     for (let form of forms) {
         form.addEventListener('submit', (evt) => {
@@ -546,7 +545,7 @@ window.addEventListener('load', () => {
             form.classList.add('was-validated');
         });
     }
-});*/
+});
 /*================================Chart Donut================================*/
 function chartGender() {
     male = 0;

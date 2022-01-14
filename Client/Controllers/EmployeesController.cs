@@ -3,6 +3,7 @@ using Client.Base;
 using Client.Models;
 using Client.Repositories.Data;
 using Client.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace Client.Controllers
 {
+    
     public class EmployeesController : BaseController<Employee, EmployeeRepository, string>
     {
          private readonly EmployeeRepository repository;

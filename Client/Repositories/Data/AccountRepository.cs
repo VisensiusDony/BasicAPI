@@ -46,5 +46,18 @@ namespace Client.Repositories.Data
 
             return entities;
         }
+
+        public async Task<JWTokenVM> Auth(LoginVM login)
+        {
+            JWTokenVM token = null;
+
+            StringContent content = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
+            var result = await httpClient.PostAsync(request + "Login", content);
+
+            string apiResponse = await result.Content.ReadAsStringAsync();
+            token = JsonConvert.DeserializeObject<JWTokenVM>(apiResponse);
+
+            return token;
+        }
     }
 }

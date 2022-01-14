@@ -38,11 +38,11 @@ namespace API.Controllers
             return login switch
             {
                 //1 => Ok(new { status = HttpStatusCode.OK, idToken = accountRepository.GenerateLogin(loginVM), message = "Login Success congrats" }),
-                "2" => BadRequest(new { status = HttpStatusCode.BadRequest, login, message = "Password incorrect" }),
-                "3" => BadRequest(new { status = HttpStatusCode.BadRequest, login, message = "Email is not registered" }),
-                "4" => BadRequest(new { status = HttpStatusCode.BadRequest, login, message = "The email you entered is empty" }),
-                "5" => BadRequest(new { status = HttpStatusCode.BadRequest, login, message = "The password you entered is empty" }),
-                _ => Ok(new { status = HttpStatusCode.OK, idToken = login, message = "Login Success" }),
+                "2" => BadRequest(new JWTokenVM{ Status = HttpStatusCode.BadRequest, IdToken = null, Message = "Password incorrect" }),
+                "3" => BadRequest(new JWTokenVM { Status = HttpStatusCode.BadRequest, IdToken = null, Message = "Email is not registered" }),
+                "4" => BadRequest(new JWTokenVM { Status = HttpStatusCode.BadRequest, IdToken = null, Message = "The email you entered is empty" }),
+                "5" => BadRequest(new JWTokenVM { Status = HttpStatusCode.BadRequest, IdToken = null, Message = "The password you entered is empty" }),
+                _ => Ok(new JWTokenVM { Status = HttpStatusCode.OK, IdToken = login, Message = "Login Success" }),
             };
         }
 
