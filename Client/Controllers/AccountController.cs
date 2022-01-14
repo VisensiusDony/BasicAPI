@@ -16,6 +16,7 @@ namespace Client.Controllers
     public class AccountController : BaseController<Account, AccountRepository, string>
     {
         private readonly AccountRepository repository;
+       
         public AccountController(AccountRepository repository): base(repository)
         {
             this.repository = repository;
@@ -33,8 +34,9 @@ namespace Client.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Auth(LoginVM login,Employee employee)
+        public async Task<IActionResult> Auth(LoginVM login)
         {
+            
             var jwtToken = await repository.Auth(login);
             var token = jwtToken.IdToken;
 
