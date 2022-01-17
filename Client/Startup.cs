@@ -78,6 +78,16 @@ namespace Client
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseStatusCodePages(async context => {
+                var request = context.HttpContext.Request;
+                var response = context.HttpContext.Response;
+
+                if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
+                {
+                    response.Redirect("/Login");
+                }
+
+            });
             app.UseSession();
             app.Use(async (context, next) =>
             {
@@ -90,16 +100,7 @@ namespace Client
             });
             app.UseAuthentication();
             app.UseAuthorization();
-            /*app.UseStatusCodePages(async context => {
-                var request = context.HttpContext.Request;
-                var response = context.HttpContext.Response;
-
-                if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
-                {
-                    response.Redirect("/Login");
-                }
-
-            });*/
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
