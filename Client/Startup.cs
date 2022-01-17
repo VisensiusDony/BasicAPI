@@ -51,9 +51,9 @@ namespace Client
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidateIssuer = false,
+                    ValidateIssuer = true,
                     ValidateAudience = false,
-                    //ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidIssuer = Configuration["Jwt:Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
@@ -84,7 +84,11 @@ namespace Client
 
                 if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
                 {
-                    response.Redirect("/Login");
+                    response.Redirect("/Home/HTTP401");
+                }
+                else if (response.StatusCode == (int)HttpStatusCode.Forbidden)
+                {
+                    response.Redirect("/Home/HTTP403");
                 }
 
             });

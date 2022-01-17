@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace Client.Controllers
 {
-    [Authorize]
-    /*[Authorize(Roles = "Director,Manager")]*/
+    //[Authorize]
+    [Authorize(Roles = "Director,Manager")]
     public class EmployeeController : Controller
     {
         public IActionResult Index()

@@ -61,9 +61,9 @@ namespace API
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidateIssuer = false,
+                    ValidateIssuer = true,
                     ValidateAudience = false,
-                    //ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidIssuer = Configuration["Jwt:Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero

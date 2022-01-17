@@ -33,7 +33,7 @@ namespace Client.Repositories.Data
             //JWT
             //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _contextAccessor.HttpContext.Session.GetString("JWToken"));
         }
-        public Object Login(LoginVM loginVM)
+       /* public Object Login(LoginVM loginVM)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(loginVM), Encoding.UTF8, "application/json");
 
@@ -46,7 +46,7 @@ namespace Client.Repositories.Data
             }
 
             return entities;
-        }
+        }*/
         public string JwtName(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

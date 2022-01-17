@@ -26,12 +26,12 @@ namespace Client.Controllers
             return View();
         }
 
-        [HttpPost]
+       /* [HttpPost]
         public JsonResult Login(LoginVM login)
         {
             var result = repository.Login(login);
             return Json(result);
-        }
+        }*/
 
         [HttpPost]
         public async Task<IActionResult> Auth(LoginVM login)
