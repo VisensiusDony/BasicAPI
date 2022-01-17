@@ -1,12 +1,13 @@
 ﻿using API.Model;
 using API.ViewModel;
 using Client.Base;
-using Client.Repository;
+using Client.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -46,7 +47,13 @@ namespace Client.Repositories.Data
 
             return entities;
         }
+        public string JwtName(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityToken result = tokenHandler.ReadJwtToken(token);
 
+            return result.Claims.FirstOrDefault(claim => claim.Type.Equals("name")).Value;
+        }
         public async Task<JWTokenVM> Auth(LoginVM login)
         {
             JWTokenVM token = null;

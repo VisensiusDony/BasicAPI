@@ -51,6 +51,7 @@ namespace API.Repository.Data
                 select new
                 {
                     email = employee.Email,
+                    name = employee.FirstName+" "+employee.LastName,
                     roles = role.RoleName
                 });
                         var claims = new List<Claim>();
@@ -58,6 +59,7 @@ namespace API.Repository.Data
                         foreach (var item in data)
                         {
                             //claims.Add(new Claim("email", item.email));
+                            claims.Add(new Claim("name",item.name));
                             claims.Add(new Claim("roles", item.roles));
                         }
                         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

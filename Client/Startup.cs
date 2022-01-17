@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -89,7 +90,16 @@ namespace Client
             });
             app.UseAuthentication();
             app.UseAuthorization();
+            /*app.UseStatusCodePages(async context => {
+                var request = context.HttpContext.Request;
+                var response = context.HttpContext.Response;
 
+                if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
+                {
+                    response.Redirect("/Login");
+                }
+
+            });*/
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

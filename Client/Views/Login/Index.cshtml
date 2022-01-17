@@ -10,7 +10,11 @@
 
         <!-- Outer Row -->
         <div class="row justify-content-center">
-
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>@TempData["Message"]</strong>
+            </div>
+           @* <p class="bg-danger" style="color:white">@TempData["Message"]</p>*@
             <div class="col-xl-10 col-lg-12 col-md-9">
 
                 <div class="card o-hidden border-0 shadow-lg my-5">
@@ -43,8 +47,8 @@
                                             </div>
                                         </div>
                                         @*<a class="btn btn-primary btn-user btn-block bg-dark">
-                                            Login
-                                        </a>*@
+                                        Login
+                                    </a>*@
                                         <button type="submit" class="btn btn-primary btn-block">Login</button>
                                         <hr>
                                         <a href="index.html" class="btn btn-google btn-user btn-block bg-danger text-light">

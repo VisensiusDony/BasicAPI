@@ -11,7 +11,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Client.Repository
+namespace Client.Repositories
 {
     public class GeneralRepository<TEntity, TId> : IRepository<TEntity, TId>
     where TEntity : class

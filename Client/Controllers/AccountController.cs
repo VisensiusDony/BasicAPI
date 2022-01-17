@@ -37,19 +37,22 @@ namespace Client.Controllers
         public async Task<IActionResult> Auth(LoginVM login)
         {
             
-            var jwtToken = await repository.Auth(login);
-            var token = jwtToken.IdToken;
+            var JWToken = await repository.Auth(login);
+            var token = JWToken.IdToken;
 
             if (token == null)
             {
-                return RedirectToAction("GetAll");
+                TempData["Message"] = JWToken.Message;
+                return RedirectToAction("index", "login");
             }
 
             HttpContext.Session.SetString("JWToken", token);
             /*HttpContext.Session.SetString("Name", jwtHandler.GetName(token));
             HttpContext.Session.SetString("ProfilePicture", "assets/img/theme/user.png");*/
+            TempData["name"] = repository.JwtName(JWToken.IdToken);
+            //HttpContext.Session.SetString("name", repository.JwtName(JWToken.IdToken));
 
-           return RedirectToAction("index", "employee");
+            return RedirectToAction("index", "employee");
            /* return Json(token);*/
         }
         [Authorize]

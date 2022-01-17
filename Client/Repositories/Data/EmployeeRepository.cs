@@ -1,6 +1,6 @@
 ﻿using API.Model;
 using Client.Base;
-using Client.Repository;
+using Client.Repositories;
 using Client.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
